@@ -26,6 +26,12 @@ class QueueEvent(str, Enum):
     TIMEOUT = "timeout"  # 智能体超时事件
     PING = "ping"  # ping联通事件
 
+    def __str__(self):
+        return self.value
+        
+    def __repr__(self):
+        return self.value
+
 
 class AgentThought(BaseModel):
     """智能体推理观察输出内容"""
