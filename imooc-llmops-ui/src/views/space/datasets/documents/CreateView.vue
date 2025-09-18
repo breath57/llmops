@@ -67,7 +67,7 @@ const nextStep = async () => {
       // 2.8 将加载状态设置为true，并将表单数据转换成api接口数据
       const req: Record<string, any> = {
         upload_file_ids: createDocumentsForm.value.file_list.map(
-          (fileItem: any) => fileItem?.response?.data?.id,
+          (fileItem: any) => fileItem?.response?.id,
         ),
         process_type: createDocumentsForm.value.process_type,
       }

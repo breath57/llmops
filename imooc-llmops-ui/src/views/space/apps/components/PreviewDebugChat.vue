@@ -157,6 +157,7 @@ const handleSubmit = async () => {
         }
 
         // 5.14 更新/添加answer答案
+        // messages.value[0].answer += data?.answer
         messages.value[0].answer += data?.thought
         messages.value[0].latency = data?.latency
         messages.value[0].total_token_count = data?.total_token_count
