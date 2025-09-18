@@ -289,7 +289,7 @@ class AppService(BaseService):
         draft_app_config = self._validate_draft_app_config(draft_app_config, account)
 
         # 3.获取当前应用的最新草稿信息
-        draft_app_config_record = app.draft_app_config
+        draft_app_config_record: AppConfigVersion = app.draft_app_config
         self.update(
             draft_app_config_record,
             # todo:由于目前使用server_onupdate，所以该字段暂时需要手动传递

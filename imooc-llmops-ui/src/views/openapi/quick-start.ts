@@ -1,4 +1,4 @@
-export const blockApiShell = `curl --location --request POST 'https://localhost:5000/openapi/chat \\
+export const blockApiShell = `curl --location --request POST 'https://localhost:5006/openapi/chat \\
 --header 'Authorization: Bearer pat_OYDacMzM3WyOWV3Dtj2bHRMymzxP****' \\
 --header 'Content-Type: application/json' \\
 --data-raw '{
@@ -77,7 +77,7 @@ export const blockApiOutput = `{
     "message": ""
 }`
 
-export const streamApiShell = `curl --location --request POST 'https://localhost:5000/openapi/chat \\
+export const streamApiShell = `curl --location --request POST 'https://localhost:5005/openapi/chat \\
 --header 'Authorization: Bearer pat_OYDacMzM3WyOWV3Dtj2bHRMymzxP****' \\
 --header 'Content-Type: application/json' \\
 --data-raw '{

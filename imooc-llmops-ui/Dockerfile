@@ -15,7 +15,7 @@ RUN yarn install
 COPY . .
 
 # 配置环境变量
-ENV VITE_API_PREFIX=http://localhost:5000
+ENV VITE_API_PREFIX=http://localhost:5006
 
 # 构建/编译项目
 RUN yarn build

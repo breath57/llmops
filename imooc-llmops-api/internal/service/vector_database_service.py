@@ -13,14 +13,18 @@ from langchain_core.vectorstores import VectorStoreRetriever
 from langchain_weaviate import WeaviateVectorStore
 from weaviate import WeaviateClient
 from weaviate.collections import Collection
+from weaviate.config import AdditionalConfig, Timeout
+from weaviate.embedded import WEAVIATE_VERSION
 
 from .embeddings_service import EmbeddingsService
 
 # 向量数据库的集合名字
 COLLECTION_NAME = "Dataset"
 
+from injector import Injector, singleton, inject
 
 @inject
+@singleton
 class VectorDatabaseService:
     """向量数据库服务"""
     client: WeaviateClient
@@ -35,9 +39,14 @@ class VectorDatabaseService:
         # 2.创建/连接weaviate向量数据库
         self.client = weaviate.connect_to_local(
             host=os.getenv("WEAVIATE_HOST"),
-            port=int(os.getenv("WEAVIATE_PORT"))
+            port=int(os.getenv("WEAVIATE_PORT")),
+            grpc_port=os.getenv("WEAVIATE_GRPC_PORT", 50051),
+            additional_config= AdditionalConfig(timeout=Timeout(init=90, query=90, insert=120)),
+            skip_init_checks=True,
         )
-
+        meta = self.client.get_meta()
+        is_ready = self.client.is_ready()
+        print(f'weaviate meta: {meta}, is_ready: {is_ready}')
         # 3.创建LangChain向量数据库
         self.vector_store = WeaviateVectorStore(
             client=self.client,

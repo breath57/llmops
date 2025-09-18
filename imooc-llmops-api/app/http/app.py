@@ -5,9 +5,11 @@
 @Author  : thezehui@gmail.com
 @File    : app.py
 """
+import os
 import dotenv
 from flask_login import LoginManager
 from flask_migrate import Migrate
+from injector import Injector
 
 from config import Config
 from internal.middleware import Middleware
@@ -35,4 +37,4 @@ app = Http(
 celery = app.extensions["celery"]
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, port=os.getenv("PORT", 5000))

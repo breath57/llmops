@@ -7,7 +7,7 @@
 """
 from flask_login import LoginManager
 from flask_migrate import Migrate
-from injector import Module, Binder, Injector
+from injector import Module, Binder, Injector, inject
 from redis import Redis
 
 from internal.extension.database_extension import db
@@ -25,6 +25,5 @@ class ExtensionModule(Module):
         binder.bind(Migrate, to=migrate)
         binder.bind(Redis, to=redis_client)
         binder.bind(LoginManager, to=login_manager)
-
 
 injector = Injector([ExtensionModule])

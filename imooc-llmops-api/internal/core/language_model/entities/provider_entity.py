@@ -9,7 +9,7 @@ import os.path
 from typing import Union, Type, Any, Optional
 
 import yaml
-from langchain_core.pydantic_v1 import BaseModel, Field, root_validator
+from pydantic import BaseModel, Field, model_validator
 
 from internal.exception import FailException, NotFoundException
 from internal.lib.helper import dynamic_import
@@ -35,12 +35,12 @@ class Provider(BaseModel):
     model_entity_map: dict[str, ModelEntity] = Field(default_factory=dict)  # 模型实体映射
     model_class_map: dict[str, Union[None, Type[BaseLanguageModel]]] = Field(default_factory=dict)  # 模型类映射
 
-    @root_validator(pre=False)
-    def validate_provider(cls, provider: dict[str, Any]) -> dict[str, Any]:
+    @model_validator(mode="before")
+    def validate_provider(cls, provider: 'Provider') -> dict[str, Any]:
         """服务提供者校验器，利用校验器完成该服务提供者的实体与类实例化"""
         # 1.获取服务提供商实体
         provider_entity: ProviderEntity = provider["provider_entity"]
-
+        provider.update({"model_class_map": {}})
         # 2.动态导入服务提供商的模型类
         for model_type in provider_entity.supported_model_types:
             # 3.将类型的第一个字符转换成大写，其他不变，并构建类映射
@@ -63,6 +63,7 @@ class Provider(BaseModel):
         if not isinstance(positions_yaml_data, list):
             raise FailException("positions.yaml数据格式错误")
 
+        provider["model_entity_map"] = dict()
         # 6.循环读取位置中的模型名字
         for model_name in positions_yaml_data:
             # 7.组装每一个模型的详细信息
