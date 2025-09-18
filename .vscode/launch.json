@@ -5,6 +5,22 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Celery Worker",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "celery",
+            "args": [
+                "-A", "app.http.app.celery",
+                "worker",
+                "--loglevel=info"
+            ],
+            "cwd": "${workspaceFolder}/imooc-llmops-api",
+            // "envFile": "${workspaceFolder}/.env",  // 可选：如果有环境变量文件
+            "justMyCode": false,  // 允许调试第三方库代码（如 Celery 内部）
+            "console": "integratedTerminal",  // 在集成终端中显示输出
+            // "python": "${command:python.interpreterPath}"  // 使用当前选择的 Python 解释器
+        },
+        {
             "name": "flask run app",
             "type": "debugpy",
             "request": "launch",
@@ -17,12 +33,14 @@
                 "run",
                 "--no-debugger",
                 "--no-reload"
+                // "--port",
+                // "5006",
             ],
             "jinja": true,
             "autoStartBrowser": false
         },
-        // debug
         {
+            "type": "debugpy",
             "name": "debug flask run app",
             "request": "launch",
             "program": "imooc-llmops-api/app/http/app.py",
@@ -30,14 +48,52 @@
                 "FLASK_APP": "imooc-llmops-api/app/http/app.py",
                 "FLASK_DEBUG": "0"
             },
-            "python": "${workspaceFolder}/.venv/bin/python",
+            // "python": "${workspaceFolder}/imooc-llmops-api/.venv/bin/python",
+            "args": [
+                "run",
+                "--host",
+                "0.0.0.0",
+            ]
+        },
+        {
+            "name": "Flask Debug (with debugpy)",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "imooc-llmops-api/app/http/app.py",
+            "env": {
+                "FLASK_ENV": "development",
+                "FLASK_DEBUG": "1"
+            },
             "args": [
                 "run",
                 "--host",
                 "0.0.0.0",
                 "--port",
                 "5000"
-            ]
+            ],
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/imooc-llmops-api"
+        },
+        {
+            "name": "Vite Dev Server (yarn dev)",
+            "type": "node",
+            "request": "launch",
+            "runtimeExecutable": "yarn",
+            "runtimeArgs": ["dev"],
+            "cwd": "${workspaceFolder}/imooc-llmops-ui",
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen",
+            "env": {
+                "NODE_ENV": "development"
+            }
+        },
+        {
+            "name": "Launch Chrome for Frontend",
+            "request": "launch",
+            "type": "chrome",
+            "url": "http://localhost:5173",
+            "webRoot": "${workspaceFolder}/imooc-llmops-ui/src",
+            "sourceMaps": true
         }
     ]
 }
