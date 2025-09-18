@@ -3,8 +3,8 @@ label: deepseek-ai/DeepSeek-V3
 model_type: chat
 features:
   - tool_call
-  - agent_thought
-  - image_input
+  # - agent_thought
+  # - image_input
 context_window: 128000
 max_output_tokens: 16384
 attributes:
