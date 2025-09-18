@@ -34,7 +34,8 @@ class EmbeddingsService:
         #         "trust_remote_code": True,
         #     }
         # )
-        self._embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
+        # self._embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
+        self._embeddings = OpenAIEmbeddings(model="Qwen/Qwen3-Embedding-4B")
         self._cache_backed_embeddings = CacheBackedEmbeddings.from_bytes_store(
             self._embeddings,
             self._store,

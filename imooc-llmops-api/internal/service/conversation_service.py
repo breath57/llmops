@@ -106,7 +106,7 @@ class ConversationService(BaseService):
         ])
 
         # 2.构建大语言模型实例，并且将大语言模型的温度调低，降低幻觉的概率
-        llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0)
+        llm = ChatOpenAI(model="deepseek-ai/DeepSeek-V3", temperature=0)
         structured_llm = llm.with_structured_output(SuggestedQuestions)
 
         # 3.构建链应用
@@ -144,8 +144,8 @@ class ConversationService(BaseService):
             latency = 0
 
             # 2.在子线程中重新查询conversation以及message，确保对象会被子线程的会话管理到
-            conversation = self.get(Conversation, conversation_id)
-            message = self.get(Message, message_id)
+            conversation: Conversation = self.get(Conversation, conversation_id)
+            message: Message = self.get(Message, message_id)
 
             # 3.循环遍历所有的智能体推理过程执行存储操作
             for agent_thought in agent_thoughts:
