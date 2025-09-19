@@ -1,0 +1,16 @@
+name: qwenimg
+label: QwenImg绘图工具
+description: QwenImg是一个将文本转换成图片的绘图工具。
+params:
+  - name: size
+    label: 图片尺寸
+    type: select
+    default: 1328x1328
+    required: true
+    options:
+      - value: 1328x1328
+        label: "(方)1328x1328"
+      - value: 1664x928
+        label: "(横屏)1664x928"
+      - value: 928x1664
+        label: "(竖屏)928x1664" 

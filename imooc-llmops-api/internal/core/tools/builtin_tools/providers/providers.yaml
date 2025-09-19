@@ -26,6 +26,13 @@
   background: "#E5E7EB"
   category: image
   created_at: 1722498386
+- name: qwenimg
+  label: QwenImg
+  description: QwenImg是一个文生图工具。
+  icon: icon.png
+  background: "#6e29f4"
+  category: image
+  created_at: 1722498386
 - name: gaode
   label: 高德工具包
   description: 内置了高德天气预报和ip查询功能。
