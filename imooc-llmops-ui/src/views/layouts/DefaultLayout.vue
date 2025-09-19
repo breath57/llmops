@@ -8,6 +8,9 @@ import { useCredentialStore } from '@/stores/credential'
 import { useAccountStore } from '@/stores/account'
 import SettingModal from '@/views/layouts/components/SettingModal.vue'
 
+// 图片导入
+import AppLogo from '@/assets/xiaohe-logo.png'
+
 // 1.定义页面所需数据
 const settingModalVisible = ref(false)
 const router = useRouter()
@@ -44,10 +47,20 @@ onMounted(async () => {
         <!-- 上半部分 -->
         <div class="">
           <!-- 顶部Logo -->
-          <router-link
-            to="/home"
-            class="block h-9 w-[110px] mb-5 bg-gray-200 hover:bg-gray-300 transition-all rounded-lg"
-          />
+          <div class="flex items-center justify-center mb-5">
+            <router-link
+              to="/home"
+              class="block h-10 w-[105px] bg-gray-500 hover:bg-gray-500 transition-all rounded-lg"
+            >
+              <img
+                :src="AppLogo"
+                alt="Logo"
+                class="w-full h-full rounded-lg"
+                :preview-visible="false"
+                style="display: block; align-self: center;"
+              />
+            </router-link>
+          </div>
           <!-- 创建AI应用按钮 -->
           <router-link :to="{ name: 'space-apps-list', query: { create_type: 'app' } }">
             <a-button type="primary" long class="rounded-lg mb-4">
