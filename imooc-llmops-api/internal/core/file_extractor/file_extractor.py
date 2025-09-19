@@ -86,6 +86,7 @@ class FileExtractor:
             loader = UnstructuredExcelLoader(file_path)
         elif file_extension == ".pdf":
             from langchain_community.document_loaders import PyPDFLoader
+            # 需要的依赖过大，不推荐使用
             # loader = UnstructuredPDFLoader(file_path, strategy="fast")
             loader = PyPDFLoader(file_path)
         elif file_extension in [".md", ".markdown"]:

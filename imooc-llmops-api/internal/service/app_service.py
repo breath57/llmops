@@ -16,7 +16,6 @@ from uuid import UUID
 import requests
 from flask import current_app
 from injector import inject
-from langchain_community.utilities.dalle_image_generator import DallEAPIWrapper
 from langchain_core.messages import HumanMessage
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
@@ -89,13 +88,14 @@ class AppService(BaseService):
         # 1.创建LLM，用于生成icon提示与预设提示词
         llm = ChatOpenAI(model="deepseek-ai/DeepSeek-V3", temperature=0.8)
 
-        # 2.创建DallEApiWrapper包装器
-        dalle_api_wrapper = DallEAPIWrapper(model="dall-e-3", size="1024x1024")
+        # 2. 创建 qwenimg 工具
+        from internal.core.tools.builtin_tools.providers.qwenimg import qwenimg
+        generate_img_tool = qwenimg()
 
         # 3.构建生成icon链
         generate_icon_chain = ChatPromptTemplate.from_template(
             GENERATE_ICON_PROMPT_TEMPLATE
-        ) | llm | StrOutputParser() | dalle_api_wrapper.run
+        ) | llm | {"query": StrOutputParser()} | generate_img_tool
 
         # 4.生成预设prompt链
         generate_preset_prompt_chain = ChatPromptTemplate.from_messages([
@@ -550,6 +550,7 @@ class AppService(BaseService):
         agent_class = FunctionCallAgent if ModelFeature.TOOL_CALL in llm.features else ReACTAgent
         agent = agent_class(
             llm=llm,
+            name="function_call_agent" if ModelFeature.TOOL_CALL in llm.features else "react_agent",
             agent_config=AgentConfig(
                 user_id=account.id,
                 invoke_from=InvokeFrom.DEBUGGER,
