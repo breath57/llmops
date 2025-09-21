@@ -51,6 +51,11 @@
    docker-compose logs -f
    ```
 
+5. **登录系统**
+   - 前端访问：http://localhost:5173
+   - 使用管理员账号(.env文件定义)：`ADMIN_USER_ACCOUNT` / `ADMIN_USER_PW`
+   - 登录后请立即修改密码
+
 ## 🎯 访问应用
 
 部署完成后，您可以通过以下地址访问：
@@ -96,6 +101,16 @@ OPENAI_API_BASE=https://api.siliconflow.cn/v1
 # 应用密钥（生产环境请更改）
 SECRET_KEY=your-secret-key-here
 ```
+
+## 🔐 自动管理员账号
+
+项目在首次启动时会自动创建管理员账号：
+
+- **邮箱**: `root@root.com`
+- **密码**: `root123456`
+- **名称**: `Administrator`
+
+⚠️ **安全提醒**: 这是一个弱密码，仅用于初始化。登录后请立即修改为符合安全要求的密码！
 
 ## 🗄️ 数据持久化
 

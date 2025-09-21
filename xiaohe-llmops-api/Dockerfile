@@ -51,6 +51,10 @@ echo "数据库已就绪!"\n\
 echo "执行数据库迁移..."\n\
 uv run flask db upgrade -d internal/migration\n\
 \n\
+# 创建管理员账号（如果不存在）\n\
+echo "检查并创建管理员账号..."\n\
+uv run python create_admin_user.py\n\
+\n\
 # 启动应用\n\
 echo "启动API服务..."\n\
 uv run python -m app.http.app' > /app/start.sh
