@@ -9,7 +9,7 @@ const props = defineProps({
   visible: { type: Boolean, required: true, default: false },
   workflow_id: { type: String, required: true, default: '' },
 })
-const emits = defineEmits(['update:visible'])
+const emits = defineEmits(['update:visible','debug-success'])
 const { nodes } = useVueFlow()
 const form = ref<Record<string, any>>({})
 const nodeResults = ref<Record<string, any>[]>([])
@@ -70,7 +70,12 @@ const onSubmit = async ({ errors }: { errors: Record<string, ValidatedError> | u
 
   // 6.4 调用hooks发起请求
   await handleDebugWorkflow(props.workflow_id, form.value, (event_response) => {
-    nodeResults.value.push(event_response?.data)
+    const data = event_response?.data
+    nodeResults.value.push(data)
+    // 当接收到结束节点事件时，触发调试成功回调
+    if (data?.node_data?.node_type === 'end') {
+      emits('debug-success')
+    }
   })
 }
 

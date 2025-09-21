@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { markRaw, onMounted, ref } from 'vue'
+import { markRaw, onMounted, onUnmounted, ref, nextTick } from 'vue'
 import moment from 'moment/moment'
 import { useRoute } from 'vue-router'
 import { ConnectionMode, Panel, useVueFlow, VueFlow } from '@vue-flow/core'
@@ -150,7 +150,9 @@ const NODE_DATA_MAP: Record<string, any> = {
   },
 }
 const selectedNode = ref<any>(null) // 选择的节点
+const selectedEdge = ref<any>(null) // 选择的边
 const isInitializing = ref(true) // 数据是否初始化
+const isProgrammaticChange = ref(false) // 程序内更新标志，用于抑制重复保存
 const isDebug = ref(false) // 是否处于调试状态
 const nodeInfoVisible = ref(false) // 节点信息是否显示
 const {
@@ -264,13 +266,18 @@ const addNode = (node_type: string) => {
 // 定义监听工作流变化事件（涵盖节点+边）
 const onChange = () => {
   // 检测是否初始化，如果是则直接中断程序
-  if (isInitializing.value) return
-
+  if (isInitializing.value || isProgrammaticChange.value) return
+  
   // 如果不是则发起更新图草稿配置
   handleUpdateDraftGraph(
     String(route.params?.workflow_id ?? ''),
     convertGraphToReq(nodes.value, edges.value),
   )
+  // 本地立即禁用发布按钮
+  if (workflow && typeof workflow.value === 'object') {
+    // 本地立即禁用发布按钮
+    ;(workflow as any).value.is_debug_passed = false
+  }
 }
 
 // 定义节点更新事件
@@ -292,6 +299,54 @@ const onUpdateNode = (node_data: Record<string, any>) => {
     convertGraphToReq(nodes.value, edges.value),
     true,
   )
+  // 本地立即禁用发布按钮
+  if (workflow && typeof workflow.value === 'object') {
+    ;(workflow as any).value.is_debug_passed = false
+  }
+}
+
+// 删除当前选中的节点或边
+const deleteSelected = () => {
+  const workflow_id = String(route.params?.workflow_id ?? '')
+
+  // 开启静默变更，避免 @update:nodes/@update:edges 立即触发保存
+  isProgrammaticChange.value = true
+
+  if (selectedNode.value) {
+    const nodeId = selectedNode.value.id
+    // 删除节点
+    nodes.value = nodes.value.filter((n: any) => n.id !== nodeId)
+    // 同时删除关联的边
+    edges.value = edges.value.filter((e: any) => e.source !== nodeId && e.target !== nodeId)
+    selectedNode.value = null
+    nodeInfoVisible.value = false
+  } else if (selectedEdge.value) {
+    // 删除选中的边
+    const edgeId = selectedEdge.value.id
+    edges.value = edges.value.filter((e: any) => e.id !== edgeId)
+    selectedEdge.value = null
+  } else {
+    isProgrammaticChange.value = false
+    Message.warning('请先选中一个节点或连线')
+    return
+  }
+  // 在下一个 tick 再关闭静默标志，并只提交一次草稿
+  nextTick(() => {
+    isProgrammaticChange.value = false
+    handleUpdateDraftGraph(workflow_id, convertGraphToReq(nodes.value, edges.value), true)
+  })
+  // 本地立即禁用发布按钮
+  if (workflow && typeof workflow.value === 'object') {
+    ;(workflow as any).value.is_debug_passed = false
+  }
+}
+
+// 键盘监听：Delete/Backspace 删除
+const onKeyDown = (e: KeyboardEvent) => {
+  if (e.key === 'Delete' || e.key === 'Backspace') {
+    e.preventDefault()
+    deleteSelected()
+  }
 }
 
 // 节点链接hooks
@@ -332,18 +387,29 @@ onConnect((connection) => {
     animated: true,
     style: { strokeWidth: 2, stroke: '#9ca3af' },
   })
+  // 同步保存并本地禁用发布按钮
+  handleUpdateDraftGraph(
+    String(route.params?.workflow_id ?? ''),
+    convertGraphToReq(nodes.value, edges.value),
+    false,
+  )
+  if (workflow && typeof workflow.value === 'object') {
+    ;(workflow as any).value.is_debug_passed = false
+  }
 })
 
 // 工作流面板点击hooks
 onPaneClick(() => {
   isDebug.value = false
   selectedNode.value = null
+  selectedEdge.value = null
 })
 
 // 工作流Edge边点击hooks
-onEdgeClick(() => {
+onEdgeClick((edgeMouseEvent) => {
   isDebug.value = false
   selectedNode.value = null
+  selectedEdge.value = edgeMouseEvent.edge
 })
 
 // 工作流Node点击hooks
@@ -364,6 +430,10 @@ onNodeDragStop(() => {
     convertGraphToReq(nodes.value, edges.value),
     false,
   )
+  // 本地立即禁用发布按钮
+  if (workflow && typeof workflow.value === 'object') {
+    ;(workflow as any).value.is_debug_passed = false
+  }
 })
 
 // 工作流面板加载完毕后的回调函数
@@ -383,6 +453,11 @@ onMounted(async () => {
   await loadWorkflow(workflow_id)
   await loadDraftGraph(workflow_id)
   isInitializing.value = false
+  window.addEventListener('keydown', onKeyDown)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('keydown', onKeyDown)
 })
 </script>
 
@@ -686,6 +761,15 @@ onMounted(async () => {
                 type="text"
                 size="small"
                 class="px-2 rounded-lg"
+                @mousedown.stop
+                @click.stop="() => deleteSelected()"
+              >
+                删除
+              </a-button>
+              <a-button
+                type="text"
+                size="small"
+                class="px-2 rounded-lg"
                 @click="
                   () => {
                     // 清空当前选中节点并设置调试模式
@@ -706,6 +790,7 @@ onMounted(async () => {
         <debug-modal
           :workflow_id="String(route.params?.workflow_id ?? '')"
           v-model:visible="isDebug"
+          @debug-success="async () => { await loadWorkflow(String(route.params?.workflow_id ?? '')) }"
         />
         <!-- 节点信息容器 -->
         <start-node-info
