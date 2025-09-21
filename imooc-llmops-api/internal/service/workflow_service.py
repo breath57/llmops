@@ -6,6 +6,7 @@
 @File    : workflow_service.py
 """
 import json
+import logging
 import time
 import uuid
 from dataclasses import dataclass
@@ -312,18 +313,23 @@ class WorkflowService(BaseService):
                         "id": str(uuid.uuid4()),
                         **node_result_dict,
                     }
+
+                    #  @QS：具体不更新的原因未知，什么原因导致回滚的未知，临时替代方案
+                    if node_result_dict.get("node_data", {}).get("node_type") == NodeType.END:
+                        from sqlalchemy import update
+                        _ = self.db.session.execute(
+                            update(Workflow).where(Workflow.id == workflow.id).values(is_debug_passed=True)
+                        )
                     yield f"event: workflow\ndata: {json.dumps(data)}\n\n"
 
-                # 7.流式输出完毕后，将结果存储到数据库中
+                # 7.流式输出完毕后，将结果存储到数据库中                
                 self.update(workflow_result, **{
                     "status": WorkflowResultStatus.SUCCEEDED,
                     "state": node_results,
                     "latency": (time.perf_counter() - start_at),
                 })
-                self.update(workflow, **{
-                    "is_debug_passed": True,
-                })
-            except Exception:
+            except Exception as e:
+                logging.exception(f"工作流调试失败: {e}")
                 self.update(workflow_result, **{
                     "status": WorkflowResultStatus.FAILED,
                     "state": node_results,
