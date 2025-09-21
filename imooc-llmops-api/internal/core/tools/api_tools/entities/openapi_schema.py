@@ -101,8 +101,11 @@ class OpenAPISchema(BaseModel):
                     raise ValidateErrorException("parameter.name参数必须为字符串且不为空")
                 if not isinstance(parameter.get("description"), str):
                     raise ValidateErrorException("parameter.description参数必须为字符串且不为空")
-                if not isinstance(parameter.get("required"), bool):
-                    raise ValidateErrorException("parameter.required参数必须为布尔值且不为空")
+                if parameter.get("required") is not None:
+                    if not isinstance(parameter.get("required"), bool):
+                        raise ValidateErrorException("parameter.required参数必须为布尔值，不填默认为false")
+                else:
+                    parameter["required"] = False
                 if (
                         not isinstance(parameter.get("in"), str)
                         or parameter.get("in") not in ParameterIn.__members__.values()
@@ -110,6 +113,7 @@ class OpenAPISchema(BaseModel):
                     raise ValidateErrorException(
                         f"parameter.in参数必须为{'/'.join([item.value for item in ParameterIn])}"
                     )
+                    
                 if (
                         not isinstance(parameter.get("type"), str)
                         or parameter.get("type") not in ParameterType.__members__.values()
