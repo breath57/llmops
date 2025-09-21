@@ -3,7 +3,7 @@
 #### 中间件（登录与鉴权）
 `internal/middleware/middleware.py` 通过 `LoginManager.request_loader` 托管鉴权：
 
-```19:33:/home/breath/projects/llmops/imooc-llmops-api/internal/middleware/middleware.py
+```19:33:/home/breath/projects/llmops/xiaohe-llmops-api/internal/middleware/middleware.py
 @dataclass
 class Middleware:
     ...
@@ -24,7 +24,7 @@ class Middleware:
 #### 异常处理
 自定义异常定义在 `internal/exception/exception.py`，`Http._register_error_handler` 捕获：
 
-```73:93:/home/breath/projects/llmops/imooc-llmops-api/internal/server/http.py
+```73:93:/home/breath/projects/llmops/xiaohe-llmops-api/internal/server/http.py
 def _register_error_handler(self, error: Exception):
     if isinstance(error, CustomException):
         return json(Response(code=error.code, message=error.message, data=error.data or {}))

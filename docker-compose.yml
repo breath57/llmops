@@ -1,0 +1,142 @@
+services:
+  # PostgreSQL数据库
+  postgres:
+    image: postgres:15
+    container_name: llmops-postgres
+    environment:
+      POSTGRES_DB: llmops
+      POSTGRES_USER: llmops
+      POSTGRES_PASSWORD: llmops
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U llmops -d llmops"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  # Redis缓存和消息队列
+  redis:
+    image: redis:7-alpine
+    container_name: llmops-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  # Weaviate向量数据库  
+  weaviate:
+    image: docker.m.daocloud.io/semitechnologies/weaviate:latest
+    container_name: llmops-weaviate
+    environment:
+      WEAVIATE_HOSTNAME: 0.0.0.0
+      QUERY_DEFAULTS_LIMIT: 25
+      AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED: 'true'
+      PERSISTENCE_DATA_PATH: '/var/lib/weaviate'
+      DEFAULT_VECTORIZER_MODULE: 'none'
+      CLUSTER_HOSTNAME: 'node1'
+    ports:
+      - "8080:8080"
+      - "50051:50051"
+    volumes:
+      - weaviate_data:/var/lib/weaviate
+    healthcheck:
+      test: wget --no-verbose --tries=3 --spider http://localhost:8080/v1/.well-known/ready || exit 1
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  # 后端API服务
+  api:
+    build:
+      context: ./xiaohe-llmops-api
+      dockerfile: Dockerfile
+    container_name: llmops-api
+    environment:
+      # 容器内服务主机名配置（覆盖.env中的localhost配置）
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: llmops
+      POSTGRES_PASSWORD: llmops
+      POSTGRES_DB: llmops
+      REDIS_HOST: redis
+      WEAVIATE_HOST: weaviate
+      FLASK_ENV: production
+      SQLALCHEMY_DATABASE_URI: postgresql+psycopg2://llmops:llmops@postgres:5432/llmops
+      PORT: 5006
+    ports:
+      - "5006:5006"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      weaviate:
+        condition: service_healthy
+    volumes:
+      - ./storage:/app/storage
+    restart: unless-stopped
+
+  # Celery任务队列工作进程
+  celery-worker:
+    build:
+      context: ./xiaohe-llmops-api
+      dockerfile: Dockerfile
+    container_name: llmops-celery-worker
+    command: uv run celery -A app.http.app.celery worker --loglevel=info --concurrency=4
+    environment:
+      # 容器内服务主机名配置（覆盖.env中的localhost配置）  
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: llmops
+      POSTGRES_PASSWORD: llmops
+      POSTGRES_DB: llmops
+      REDIS_HOST: redis
+      WEAVIATE_HOST: weaviate
+      FLASK_ENV: production
+      SQLALCHEMY_DATABASE_URI: postgresql+psycopg2://llmops:llmops@postgres:5432/llmops
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      api:
+        condition: service_started
+    volumes:
+      - ./storage:/app/storage
+    restart: unless-stopped
+
+  # 前端UI服务
+  ui:
+    build:
+      context: ./xiaohe-llmops-ui
+      dockerfile: Dockerfile
+    container_name: llmops-ui
+    ports:
+      - "5173:5173"
+    depends_on:
+      - api
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+  weaviate_data:
+    driver: local
+
+networks:
+  default:
+    name: llmops-network

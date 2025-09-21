@@ -30,7 +30,7 @@ def register_router(self, app):
     bp.add_url_rule("/hello", view_func=self.hello_handler.hello)
 ```
 
-重启后端，`curl http://127.0.0.1:5000/hello`
+重启后端，`curl http://127.0.0.1:5006/hello`
 
 #### 前端改动
 1) 新增一个页面（或在 `HomeView.vue`）添加按钮与请求逻辑

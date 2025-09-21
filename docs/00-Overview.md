@@ -7,8 +7,8 @@
 - **运行与部署**: 本地开发（Node + uv + Redis + SQLite/PG），前端 Dockerfile，UI 的 docker-compose 编排
 
 #### 代码结构（顶层）
-- `imooc-llmops-api/`: 后端服务（Flask + Celery + SQLAlchemy）
-- `imooc-llmops-ui/`: 前端 SPA（Vue3 + Vite）
+- `xiaohe-llmops-api/`: 后端服务（Flask + Celery + SQLAlchemy）
+- `xiaohe-llmops-ui/`: 前端 SPA（Vue3 + Vite）
 - `docker/`: 与前端相关的 docker-compose 编排
 - `docs/`: 学习与实现文档（你正在读的内容）
 

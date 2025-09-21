@@ -1,0 +1,422 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+      "title": "GitLab API",
+      "description": "GitLab API v4 常用接口 schema",
+      "version": "4.0"
+    },
+    "description": "gitlab工具集",
+    "server": "https://gitlab.example.com/api/v4",
+   "components": {
+      "securitySchemes": {
+        "PrivateToken": {
+          "type": "apiKey",
+          "in": "header",
+          "name": "Private-Token"
+        }
+      },
+      "schemas": {
+        "Project": {
+          "type": "object",
+          "properties": {
+            "id": { "type": "int" },
+            "name": { "type": "str" },
+            "description": { "type": "str" },
+            "web_url": { "type": "str" },
+            "path": { "type": "str" },
+            "created_at": { "type": "str" }
+          }
+        },
+        "User": {
+          "type": "object",
+          "properties": {
+            "id": { "type": "int" },
+            "username": { "type": "str" },
+            "name": { "type": "str" },
+            "email": { "type": "str" },
+            "state": { "type": "str" },
+            "created_at": { "type": "str" }
+          }
+        },
+        "MergeRequest": {
+          "type": "object",
+          "properties": {
+            "id": { "type": "int" },
+            "iid": { "type": "int" },
+            "title": { "type": "str" },
+            "description": { "type": "str" },
+            "state": { "type": "str" },
+            "source_branch": { "type": "str" },
+            "target_branch": { "type": "str" },
+            "author": { "$ref": "#/components/schemas/User" }
+          }
+        },
+        "Issue": {
+          "type": "object",
+          "properties": {
+            "id": { "type": "int" },
+            "iid": { "type": "int" },
+            "title": { "type": "str" },
+            "description": { "type": "str" },
+            "state": { "type": "str" },
+            "author": { "$ref": "#/components/schemas/User" },
+            "created_at": { "type": "str" }
+          }
+        },
+        "Branch": {
+          "type": "object",
+          "properties": {
+            "name": { "type": "str" },
+            "commit": {
+              "type": "object",
+              "properties": {
+                "id": { "type": "str" },
+                "short_id": { "type": "str" },
+                "title": { "type": "str" }
+              }
+            },
+            "protected": { "type": "bool" }
+          }
+        }
+      }
+    },
+    "security": [
+      {
+        "PrivateToken": []
+      }
+    ],
+    "paths": {
+      "/projects": {
+        "get": {
+          "operationId": "getProjectsList",
+          "description": "获取项目列表",
+          "parameters": [
+            {
+              "name": "page",
+              "in": "query",
+              "type": "int",
+              "default": 1,
+              "description": "页码"
+            },
+            {
+              "name": "per_page",
+              "in": "query",
+              "type": "int",
+              "default": 20,
+              "maximum": 100,
+              "description": "每页项目数量"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "成功返回项目列表",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": { "$ref": "#/components/schemas/Project" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/projects/{id}": {
+        "get": {
+          "operationId": "getProjectById",
+          "description": "获取单个项目详情",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "int",
+              "description": "项目ID"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "成功返回项目详情",
+              "content": {
+                "application/json": {
+                  "schema": { "$ref": "#/components/schemas/Project" }
+                }
+              }
+            },
+            "404": {
+              "description": "项目不存在"
+            }
+          }
+        }
+      },
+      "/users": {
+        "get": {
+          "operationId": "getUsersList",
+          "description": "获取用户列表",
+          "parameters": [
+            {
+              "name": "page",
+              "in": "query",
+              "type": "int",
+              "default": 1,
+              "description": "页码"
+            },
+            {
+              "name": "per_page",
+              "in": "query",
+              "type": "int",
+              "default": 20,
+              "description": "每页用户数量"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "成功返回用户列表",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": { "$ref": "#/components/schemas/User" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/users/{id}": {
+        "get": {
+          "operationId": "getUserById",
+          "description": "获取单个用户详情",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "int",
+              "description": "用户ID"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "成功返回用户详情",
+              "content": {
+                "application/json": {
+                  "schema": { "$ref": "#/components/schemas/User" }
+                }
+              }
+            },
+            "404": {
+              "description": "用户不存在"
+            }
+          }
+        }
+      },
+      "/projects/{id}/merge_requests": {
+        "get": {
+          "operationId": "getProjectMergeRequests",
+          "description": "获取项目的合并请求列表",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "int",
+              "description": "项目ID"
+            },
+            {
+              "name": "state",
+              "in": "query",
+              "type": "str",
+              "enum": ["open", "closed", "locked", "merged"],
+              "description": "合并请求状态筛选"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "成功返回合并请求列表",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": { "$ref": "#/components/schemas/MergeRequest" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/projects/{id}/merge_requests/{merge_request_iid}": {
+        "get": {
+          "operationId": "getMergeRequestById",
+          "description": "获取单个合并请求详情",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "int",
+              "description": "项目ID"
+            },
+            {
+              "name": "merge_request_iid",
+              "in": "path",
+              "required": true,
+              "type": "int",
+              "description": "合并请求IID"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "成功返回合并请求详情",
+              "content": {
+                "application/json": {
+                  "schema": { "$ref": "#/components/schemas/MergeRequest" }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/projects/{id}/issues": {
+        "get": {
+          "operationId": "getProjectIssues",
+          "description": "获取项目的议题列表",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "int",
+              "description": "项目ID"
+            },
+            {
+              "name": "state",
+              "in": "query",
+              "type": "str",
+              "enum": ["open", "closed", "all"],
+              "description": "议题状态筛选"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "成功返回议题列表",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": { "$ref": "#/components/schemas/Issue" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/projects/{id}/issues/{issue_iid}": {
+        "get": {
+          "operationId": "getIssueById",
+          "description": "获取单个议题详情",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "int",
+              "description": "项目ID"
+            },
+            {
+              "name": "issue_iid",
+              "in": "path",
+              "required": true,
+              "type": "int",
+              "description": "议题IID"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "成功返回议题详情",
+              "content": {
+                "application/json": {
+                  "schema": { "$ref": "#/components/schemas/Issue" }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/projects/{id}/repository/branches": {
+        "get": {
+          "operationId": "getProjectBranches",
+          "description": "获取项目的分支列表",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "int",
+              "description": "项目ID"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "成功返回分支列表",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": { "$ref": "#/components/schemas/Branch" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/projects/{id}/repository/commits": {
+        "get": {
+          "operationId": "getProjectCommits",
+          "description": "获取项目的提交记录",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "int",
+              "description": "项目ID"
+            },
+            {
+              "name": "ref_name",
+              "in": "query",
+              "type": "str",
+              "description": "分支或标签名称"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "成功返回提交记录",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": { "type": "str" },
+                        "short_id": { "type": "str" },
+                        "title": { "type": "str" },
+                        "author_name": { "type": "str" },
+                        "created_at": { "type": "str" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }

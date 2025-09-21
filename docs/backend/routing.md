@@ -3,7 +3,7 @@
 集中定义在 `internal/router/router.py`，通过依赖注入将各 `Handler`（位于 `internal/handler/*`）装配进来，再统一绑定到 `Blueprint`。
 
 核心代码：
-```8:35:/home/breath/projects/llmops/imooc-llmops-api/internal/router/router.py
+```8:35:/home/breath/projects/llmops/xiaohe-llmops-api/internal/router/router.py
 @inject
 @dataclass
 class Router:
@@ -15,7 +15,7 @@ class Router:
 ```
 
 绑定示例：
-```62:76:/home/breath/projects/llmops/imooc-llmops-api/internal/router/router.py
+```62:76:/home/breath/projects/llmops/xiaohe-llmops-api/internal/router/router.py
 def register_router(self, app: Flask):
     """注册路由"""
     bp = Blueprint("llmops", __name__, url_prefix="")

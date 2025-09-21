@@ -1,0 +1,351 @@
+erDiagram
+    %% 核心账号和身份验证
+    Account {
+        UUID id PK
+        string name
+        string email
+        string avatar
+        string password
+        string password_salt
+        UUID assistant_agent_conversation_id FK
+        datetime last_login_at
+        string last_login_ip
+        datetime updated_at
+        datetime created_at
+    }
+    
+    AccountOAuth {
+        UUID id PK
+        UUID account_id FK
+        string provider
+        string openid
+        string encrypted_token
+        datetime updated_at
+        datetime created_at
+    }
+    
+    ApiKey {
+        UUID id PK
+        UUID account_id FK
+        string api_key
+        boolean is_active
+        string remark
+        datetime updated_at
+        datetime created_at
+    }
+    
+    %% 应用和配置
+    App {
+        UUID id PK
+        UUID account_id FK
+        UUID app_config_id FK
+        UUID draft_app_config_id FK
+        UUID debug_conversation_id FK
+        string name
+        string icon
+        text description
+        string token
+        string status
+        datetime updated_at
+        datetime created_at
+    }
+    
+    AppConfig {
+        UUID id PK
+        UUID app_id FK
+        jsonb model_config
+        integer dialog_round
+        text preset_prompt
+        jsonb tools
+        jsonb workflows
+        jsonb retrieval_config
+        jsonb long_term_memory
+        text opening_statement
+        jsonb opening_questions
+        jsonb speech_to_text
+        jsonb text_to_speech
+        jsonb suggested_after_answer
+        jsonb review_config
+        datetime updated_at
+        datetime created_at
+    }
+    
+    AppConfigVersion {
+        UUID id PK
+        UUID app_id FK
+        jsonb model_config
+        integer dialog_round
+        text preset_prompt
+        jsonb tools
+        jsonb workflows
+        jsonb datasets
+        jsonb retrieval_config
+        jsonb long_term_memory
+        text opening_statement
+        jsonb opening_questions
+        jsonb speech_to_text
+        jsonb text_to_speech
+        jsonb suggested_after_answer
+        jsonb review_config
+        integer version
+        string config_type
+        datetime updated_at
+        datetime created_at
+    }
+    
+    AppDatasetJoin {
+        UUID id PK
+        UUID app_id FK
+        UUID dataset_id FK
+        datetime updated_at
+        datetime created_at
+    }
+    
+    %% 对话和消息
+    Conversation {
+        UUID id PK
+        UUID app_id FK
+        string name
+        text inputs
+        text introduction
+        text system_instruction
+        integer system_instruction_tokens
+        string status
+        string invoke_from
+        UUID created_by FK
+        datetime updated_at
+        datetime created_at
+    }
+    
+    Message {
+        UUID id PK
+        UUID app_id FK
+        UUID conversation_id FK
+        string inputs
+        string query
+        text message
+        text message_tokens
+        integer message_unit_price
+        text answer
+        integer answer_tokens
+        integer answer_unit_price
+        string provider_response_latency
+        string from_source
+        string from_end_user_id
+        string from_account_id
+        datetime updated_at
+        datetime created_at
+    }
+    
+    MessageAgentThought {
+        UUID id PK
+        UUID app_id FK
+        UUID conversation_id FK
+        UUID message_id FK
+        integer position
+        string thought
+        jsonb tool
+        string tool_input
+        string observation
+        integer tool_process_data_id
+        string tool_process_data_from
+        datetime updated_at
+        datetime created_at
+    }
+    
+    %% 知识库相关
+    Dataset {
+        UUID id PK
+        UUID account_id FK
+        string name
+        text description
+        string provider
+        jsonb permission
+        jsonb data_source_type
+        jsonb indexing_technique
+        string index_struct
+        datetime updated_at
+        datetime created_at
+    }
+    
+    Document {
+        UUID id PK
+        UUID account_id FK
+        UUID dataset_id FK
+        UUID upload_file_id FK
+        UUID process_rule_id FK
+        integer position
+        string data_source_type
+        jsonb data_source_info
+        jsonb dataset_process_rule_id
+        string batch
+        string name
+        datetime updated_at
+        datetime created_at
+    }
+    
+    Segment {
+        UUID id PK
+        UUID account_id FK
+        UUID dataset_id FK
+        UUID document_id FK
+        UUID node_id FK
+        integer position
+        text content
+        integer word_count
+        integer tokens
+        jsonb keywords
+        string index_node_id
+        string index_node_hash
+        string hit_count
+        string enabled
+        string disabled_at
+        string disabled_by
+        string status
+        datetime updated_at
+        datetime created_at
+    }
+    
+    KeywordTable {
+        UUID id PK
+        UUID dataset_id FK
+        string keyword_table
+        datetime updated_at
+        datetime created_at
+    }
+    
+    DatasetQuery {
+        UUID id PK
+        UUID dataset_id FK
+        text content
+        UUID source_app_id FK
+        datetime updated_at
+        datetime created_at
+    }
+    
+    ProcessRule {
+        UUID id PK
+        UUID account_id FK
+        UUID dataset_id FK
+        jsonb mode
+        jsonb rules
+        datetime updated_at
+        datetime created_at
+    }
+    
+    %% 工具相关
+    ApiToolProvider {
+        UUID id PK
+        UUID account_id FK
+        string name
+        string icon
+        text description
+        text openapi_schema
+        jsonb headers
+        datetime updated_at
+        datetime created_at
+    }
+    
+    ApiTool {
+        UUID id PK
+        UUID account_id FK
+        UUID provider_id FK
+        string name
+        text description
+        string url
+        string method
+        jsonb parameters
+        datetime updated_at
+        datetime created_at
+    }
+    
+    %% 工作流
+    Workflow {
+        UUID id PK
+        UUID account_id FK
+        string name
+        text description
+        jsonb graph
+        jsonb features
+        datetime updated_at
+        datetime created_at
+    }
+    
+    WorkflowResult {
+        UUID id PK
+        UUID app_id FK
+        UUID account_id FK
+        UUID workflow_id FK
+        text inputs
+        text outputs
+        string status
+        integer elapsed_time
+        integer total_tokens
+        string file_list
+        datetime updated_at
+        datetime created_at
+    }
+    
+    %% 文件和用户
+    UploadFile {
+        UUID id PK
+        UUID account_id FK
+        string name
+        string key
+        integer size
+        string extension
+        string mime_type
+        string hash
+        datetime updated_at
+        datetime created_at
+    }
+    
+    EndUser {
+        UUID id PK
+        UUID tenant_id FK
+        UUID app_id FK
+        datetime updated_at
+        datetime created_at
+    }
+    
+    %% 关系定义
+    Account ||--o{ AccountOAuth : "has"
+    Account ||--o{ ApiKey : "owns"
+    Account ||--o{ App : "creates"
+    Account ||--o{ Dataset : "creates"
+    Account ||--o{ ApiToolProvider : "creates"
+    Account ||--o{ Workflow : "creates"
+    Account ||--o{ UploadFile : "uploads"
+    Account ||--o{ ProcessRule : "creates"
+    Account ||--o{ Conversation : "creates"
+    
+    App ||--o| AppConfig : "has_published_config"
+    App ||--o{ AppConfigVersion : "has_versions"
+    App ||--o{ AppDatasetJoin : "links_to_datasets"
+    App ||--o{ Conversation : "has_conversations"
+    App ||--o{ Message : "contains_messages"
+    App ||--o{ EndUser : "serves"
+    App ||--o{ WorkflowResult : "executes_workflows"
+    App ||--o{ DatasetQuery : "queries_datasets"
+    
+    Dataset ||--o{ Document : "contains"
+    Dataset ||--o{ Segment : "has_segments"
+    Dataset ||--o{ KeywordTable : "has_keyword_table"
+    Dataset ||--o{ AppDatasetJoin : "linked_by_apps"
+    Dataset ||--o{ DatasetQuery : "receives_queries"
+    Dataset ||--o{ ProcessRule : "has_rules"
+    
+    Document ||--o{ Segment : "split_into"
+    Document ||--|| UploadFile : "based_on"
+    Document ||--|| ProcessRule : "processed_by"
+    
+    Conversation ||--o{ Message : "contains"
+    Message ||--o{ MessageAgentThought : "has_thoughts"
+    
+    ApiToolProvider ||--o{ ApiTool : "provides"
+    
+    Workflow ||--o{ WorkflowResult : "generates_results"
+    
+    %% 自引用关系
+    Account ||--o| Conversation : "assistant_conversation"
+    App ||--o| Conversation : "debug_conversation"

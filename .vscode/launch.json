@@ -14,7 +14,7 @@
                 "worker",
                 "--loglevel=info"
             ],
-            "cwd": "${workspaceFolder}/imooc-llmops-api",
+            "cwd": "${workspaceFolder}/xiaohe-llmops-api",
             // "envFile": "${workspaceFolder}/.env",  // 可选：如果有环境变量文件
             "justMyCode": false,  // 允许调试第三方库代码（如 Celery 内部）
             "console": "integratedTerminal",  // 在集成终端中显示输出
@@ -26,53 +26,18 @@
             "request": "launch",
             "module": "flask",
             "env": {
-                "FLASK_APP": "imooc-llmops-api/app/http/app.py",
+                "FLASK_APP": "xiaohe-llmops-api/app/http/app.py",
                 "FLASK_DEBUG": "1"
             },
             "args": [
                 "run",
-                "--no-debugger",
-                "--no-reload"
-                // "--port",
-                // "5006",
+                // "--no-debugger",
+                // "--no-reload"
+                "--port",
+                "5006",
             ],
             "jinja": true,
             "autoStartBrowser": false
-        },
-        {
-            "type": "debugpy",
-            "name": "debug flask run app",
-            "request": "launch",
-            "program": "imooc-llmops-api/app/http/app.py",
-            "env": {
-                "FLASK_APP": "imooc-llmops-api/app/http/app.py",
-                "FLASK_DEBUG": "0"
-            },
-            // "python": "${workspaceFolder}/imooc-llmops-api/.venv/bin/python",
-            "args": [
-                "run",
-                "--host",
-                "0.0.0.0",
-            ]
-        },
-        {
-            "name": "Flask Debug (with debugpy)",
-            "type": "debugpy",
-            "request": "launch",
-            "program": "imooc-llmops-api/app/http/app.py",
-            "env": {
-                "FLASK_ENV": "development",
-                "FLASK_DEBUG": "1"
-            },
-            "args": [
-                "run",
-                "--host",
-                "0.0.0.0",
-                "--port",
-                "5000"
-            ],
-            "console": "integratedTerminal",
-            "cwd": "${workspaceFolder}/imooc-llmops-api"
         },
         {
             "name": "Vite Dev Server (yarn dev)",
@@ -80,7 +45,7 @@
             "request": "launch",
             "runtimeExecutable": "yarn",
             "runtimeArgs": ["dev"],
-            "cwd": "${workspaceFolder}/imooc-llmops-ui",
+            "cwd": "${workspaceFolder}/xiaohe-llmops-ui",
             "console": "integratedTerminal",
             "internalConsoleOptions": "neverOpen",
             "env": {
@@ -92,7 +57,7 @@
             "request": "launch",
             "type": "chrome",
             "url": "http://localhost:5173",
-            "webRoot": "${workspaceFolder}/imooc-llmops-ui/src",
+            "webRoot": "${workspaceFolder}/xiaohe-llmops-ui/src",
             "sourceMaps": true
         }
     ]

@@ -1,7 +1,7 @@
 ### 部署指南
 
 #### 前端（Docker）
-已提供 `imooc-llmops-ui/Dockerfile` 与 `docker/docker-compose.yaml`：
+已提供 `xiaohe-llmops-ui/Dockerfile` 与 `docker/docker-compose.yaml`：
 ```
 docker compose -f docker/docker-compose.yaml up --build -d
 ```
@@ -14,7 +14,7 @@ python -m app.http.app
 ```
 
 方式二：自行容器化
-- 基于官方 `python:3.11-slim` 构建镜像
+- 基于官方 `python:3.12-slim` 构建镜像
 - 使用 `uv` 安装依赖并设置 `FLASK_ENV=production`
 - 通过 `gunicorn` 或 `gevent.pywsgi` 启动，暴露 5000 端口
 

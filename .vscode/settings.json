@@ -1,6 +1,6 @@
 {
     "python.testing.pytestArgs": [
-        "imooc-llmops-api"
+        "xiaohe-llmops-api"
     ],
     "python.testing.unittestEnabled": false,
     "python.testing.pytestEnabled": true

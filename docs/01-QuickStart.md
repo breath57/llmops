@@ -8,10 +8,8 @@
 #### 后端启动
 1) 安装依赖并创建虚拟环境
 ```
-cd imooc-llmops-api
-uv venv .venv --python=3.12
-source .venv/bin/activate
-uv pip install -r requirements.linux.txt -i https://mirrors.aliyun.com/pypi/simple
+cd xiaohe-llmops-api
+uv sync
 ```
 
 2) 启动 Redis（若本地无 Redis，可用 Docker）
@@ -39,7 +37,7 @@ docker run -d --name weaviate -p 8080:8080 -p 50051:50051 -e WEAVIATE_HOSTNAME=0
 ```
 
 
-6) 创建 `.env`（位于 `imooc-llmops-api/`）
+6) 创建 `.env`（位于 `xiaohe-llmops-api/`）
 ```
 WTF_CSRF_ENABLED=False
 
@@ -76,31 +74,25 @@ WEAVIATE_HOST=127.0.0.1
 
 7) 初始化数据库（迁移）
 ```
-# 确保在 imooc-llmops-api 目录，并已激活虚拟环境
+# 确保在 xiaohe-llmops-api 目录，并已激活虚拟环境
 export FLASK_APP=app.http.app:app
 flask db upgrade -d internal/migration
 ```
 
 8) 运行后端
 ```
-# 在项目根（imooc-llmops-api）内
-python -m app.http.app
-# 默认监听 127.0.0.1:5000
+# 在项目根（xiaohe-llmops-api）内, 运行启动脚本
+./run.sh
 ```
 
-9) 启动 Celery Worker（可选，涉及异步任务时）
+1)  API 冒烟测试
 ```
-celery -A app.http.app.celery worker -l INFO
-```
-
-10) API 冒烟测试
-```
-curl http://127.0.0.1:5000/ping
+curl http://127.0.0.1:5006/ping
 ```
 
 #### 前端启动
 ```
-cd imooc-llmops-ui
+cd xiaohe-llmops-ui
 yarn
 yarn dev
 # 访问 http://127.0.0.1:5173
@@ -113,5 +105,4 @@ docker compose -f docker/docker-compose.yaml up --build -d
 ```
 
 完成上述步骤即可在本地完成一次端到端联调。更多细节请参考 `02-Architecture.md` 与 `backend/`、`frontend/` 分册。
-
 

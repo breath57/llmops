@@ -29,7 +29,7 @@
    - `views/space/*`、`views/store/*`、`views/openapi/*` 等分域页面
 
 #### 本地开发端口
-- 后端：`http://127.0.0.1:5000`
+- 后端：`http://127.0.0.1:5006`
 - 前端：`http://127.0.0.1:5173`
 
 更多细节见 `backend/` 与 `frontend/` 分册。

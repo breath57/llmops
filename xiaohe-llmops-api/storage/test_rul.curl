@@ -1,0 +1,2 @@
+curl --request POST --header "Content-Type: application/json" \
+     --data '{"name":"<example-name>", "description":"<example-description>"}' "https://gitlab.example.com/api/v4/projects"
