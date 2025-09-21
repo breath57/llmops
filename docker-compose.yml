@@ -71,7 +71,7 @@ services:
       POSTGRES_DB: llmops
       REDIS_HOST: redis
       WEAVIATE_HOST: weaviate
-      FLASK_ENV: development
+      FLASK_ENV: production
       SQLALCHEMY_DATABASE_URI: postgresql+psycopg2://llmops:llmops@postgres:5432/llmops
       PORT: 5006
     ports:
