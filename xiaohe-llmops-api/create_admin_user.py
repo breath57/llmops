@@ -92,7 +92,6 @@ def create_admin_user():
             print(f"📧 邮箱: {email}")
             print(f"🔑 密码: {password}")
             print(f"👤 名称: {name}")
-            print(f"🆔 ID: {admin_account.id}")
             print("\n⚠️  提醒：请不要将该账号信息泄露给他人！")
             
         except Exception as e:
