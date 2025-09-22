@@ -34,8 +34,14 @@ const handleLogout = async () => {
 
 // 3.页面DOM加载完成时获取当前登录账号信息
 onMounted(async () => {
-  await loadCurrentUser()
-  accountStore.update(current_user.value)
+  try {
+    await loadCurrentUser()
+    accountStore.update(current_user.value)
+  } catch (error) {
+    // 如果获取用户信息失败，说明token无效，重定向到登录页
+    console.error('获取用户信息失败:', error)
+    await router.replace({ name: 'auth-login' })
+  }
 })
 </script>
 
