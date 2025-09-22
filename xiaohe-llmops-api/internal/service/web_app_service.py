@@ -135,6 +135,7 @@ class WebAppService(BaseService):
         agent_class = FunctionCallAgent if ModelFeature.TOOL_CALL in llm.features else ReACTAgent
         agent = agent_class(
             llm=llm,
+            name="web_app_function_call_agent" if ModelFeature.TOOL_CALL in llm.features else "web_app_react_agent",
             agent_config=AgentConfig(
                 user_id=account.id,
                 invoke_from=InvokeFrom.WEB_APP,

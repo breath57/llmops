@@ -138,6 +138,7 @@ class OpenAPIService(BaseService):
         agent_class = FunctionCallAgent if ModelFeature.TOOL_CALL in llm.features else ReACTAgent
         agent = agent_class(
             llm=llm,
+            name="openapi_function_call_agent" if ModelFeature.TOOL_CALL in llm.features else "openapi_react_agent",
             agent_config=AgentConfig(
                 user_id=account.id,
                 invoke_from=InvokeFrom.DEBUGGER,

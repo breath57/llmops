@@ -43,6 +43,7 @@ class TestLangGraph:
 
         agent = FunctionCallAgent(
             llm=llm,
+            name="my_functional_tool_agent",
             agent_config=AgentConfig(
                 user_id=uuid.uuid4(),
                 invoke_from=InvokeFrom.DEBUGGER,
