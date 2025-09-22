@@ -39,6 +39,7 @@ export type GetAppsWithPageResponse = BasePaginatorResponse<{
     model: string
   }
   status: string
+  allow_anonymous_access: boolean
   updated_at: number
   created_at: number
 }>
