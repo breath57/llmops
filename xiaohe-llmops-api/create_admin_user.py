@@ -15,7 +15,10 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 # 加载环境变量
 import dotenv
-dotenv.load_dotenv()
+if os.getenv("FLASK_ENV") == "production":
+    dotenv.load_dotenv()
+else:
+    dotenv.load_dotenv(".env.local")
 
 from flask import Flask
 from internal.model.account import Account

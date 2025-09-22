@@ -54,3 +54,10 @@ class Config:
 
         # 辅助Agent应用id标识
         self.ASSISTANT_AGENT_ID = _get_env("ASSISTANT_AGENT_ID")
+
+        # Flask应用密钥
+        self.SECRET_KEY = _get_env("SECRET_KEY")
+
+        # OpenAI配置
+        self.OPENAI_API_KEY = _get_env("OPENAI_API_KEY")
+        self.OPENAI_API_BASE = _get_env("OPENAI_API_BASE")

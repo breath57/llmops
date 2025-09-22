@@ -9,7 +9,7 @@ from uuid import UUID
 
 from flask_wtf import FlaskForm
 from marshmallow import Schema, fields, pre_dump
-from wtforms import StringField, IntegerField
+from wtforms import StringField, IntegerField, BooleanField
 from wtforms.validators import DataRequired, Length, URL, ValidationError, Optional, NumberRange
 
 from internal.entity.app_entity import AppStatus
@@ -46,6 +46,7 @@ class UpdateAppReq(FlaskForm):
     description = StringField("description", validators=[
         Length(max=800, message="应用描述的长度不能超过800个字符")
     ])
+    allow_anonymous_access = BooleanField("allow_anonymous_access", default=False)
 
 
 class GetAppsWithPageReq(PaginatorReq):
@@ -62,6 +63,7 @@ class GetAppsWithPageResp(Schema):
     preset_prompt = fields.String(dump_default="")
     model_config = fields.Dict(dump_default={})
     status = fields.String(dump_default="")
+    allow_anonymous_access = fields.Boolean(dump_default=False)
     updated_at = fields.Integer(dump_default=0)
     created_at = fields.Integer(dump_default=0)
 
@@ -79,6 +81,7 @@ class GetAppsWithPageResp(Schema):
                 "model": app_config.model_config.get("model", "")
             },
             "status": data.status,
+            "allow_anonymous_access": data.allow_anonymous_access,
             "updated_at": datetime_to_timestamp(data.updated_at),
             "created_at": datetime_to_timestamp(data.created_at),
         }
@@ -92,6 +95,7 @@ class GetAppResp(Schema):
     icon = fields.String(dump_default="")
     description = fields.String(dump_default="")
     status = fields.String(dump_default="")
+    allow_anonymous_access = fields.Boolean(dump_default=False)
     draft_updated_at = fields.Integer(dump_default=0)
     updated_at = fields.Integer(dump_default=0)
     created_at = fields.Integer(dump_default=0)
@@ -105,6 +109,7 @@ class GetAppResp(Schema):
             "icon": data.icon,
             "description": data.description,
             "status": data.status,
+            "allow_anonymous_access": data.allow_anonymous_access,
             "draft_updated_at": datetime_to_timestamp(data.draft_app_config.updated_at),
             "updated_at": datetime_to_timestamp(data.updated_at),
             "created_at": datetime_to_timestamp(data.created_at),

@@ -37,6 +37,25 @@ const scroller = ref<any>(null)
 const scrollHeight = ref(0)
 const accountStore = useAccountStore()
 const { loading: getWebAppLoading, web_app, loadWebApp } = useGetWebApp()
+
+// 创建匿名用户信息（如果需要的话）
+const currentUser = computed(() => {
+  if (accountStore.account.id) {
+    // 已登录用户
+    return accountStore.account
+  } else {
+    // 匿名用户
+    return {
+      id: 'anonymous',
+      name: '匿名用户',
+      email: 'anonymous@example.com',
+      avatar: '',
+      last_login_ip: '',
+      last_login_at: 0,
+      created_at: 0,
+    }
+  }
+})
 const {
   loading: getWebAppConversationsLoading,
   pinned_conversations,
@@ -524,7 +543,7 @@ onMounted(async () => {
           <template v-slot="{ item, active }">
             <dynamic-scroller-item :item="item" :active="active" :data-index="item.id">
               <div class="flex flex-col gap-6 py-6">
-                <human-message :query="item.query" :account="accountStore.account" />
+                <human-message :query="item.query" :account="currentUser" />
                 <ai-message
                   :agent_thoughts="item.agent_thoughts"
                   :answer="item.answer"

@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import auth from '@/utils/auth'
+import { getWebApp } from '@/services/web-app'
 import DefaultLayout from '@/views/layouts/DefaultLayout.vue'
 import BlankLayout from '@/views/layouts/BlankLayout.vue'
 
@@ -149,8 +150,32 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to) => {
-  if (!auth.isLogin() && !['auth-login', 'auth-authorize'].includes(to.name as string)) {
-    return { path: '/auth/login' }
+  // 如果用户已经登录，直接通过
+  if (auth.isLogin()) {
+    return true
   }
+  
+  // 对于登录和授权页面，直接通过
+  if (['auth-login', 'auth-authorize'].includes(to.name as string)) {
+    return true
+  }
+  
+  // 对于WebApp页面，检查是否允许匿名访问
+  if (to.name === 'web-apps-index' && to.params.token) {
+    try {
+      const response = await getWebApp(to.params.token as string)
+      const webApp = response.data
+      
+      // 如果应用允许匿名访问，则允许继续
+      if (webApp.allow_anonymous_access) {
+        return true
+      }
+    } catch (error) {
+      console.error('检查WebApp匿名访问权限失败:', error)
+    }
+  }
+  
+  // 其他情况重定向到登录页面
+  return { path: '/auth/login' }
 })
 export default router

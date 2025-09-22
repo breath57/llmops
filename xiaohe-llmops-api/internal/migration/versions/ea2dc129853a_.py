@@ -31,6 +31,8 @@ def upgrade():
                               nullable=False),
                     sa.Column('created_at', sa.DateTime(), server_default=sa.text('CURRENT_TIMESTAMP(0)'),
                               nullable=False),
+                    sa.Column('allow_anonymous_access', sa.Boolean(), 
+                                     server_default=sa.text('false'), nullable=False),
                     sa.PrimaryKeyConstraint('id', name='pk_app_id')
                     )
     with op.batch_alter_table('app', schema=None) as batch_op:

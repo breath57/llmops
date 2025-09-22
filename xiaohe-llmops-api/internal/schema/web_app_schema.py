@@ -20,6 +20,7 @@ class GetWebAppResp(Schema):
     icon = fields.String(dump_default="")
     name = fields.String(dump_default="")
     description = fields.String(dump_default="")
+    allow_anonymous_access = fields.Boolean(dump_default=False)
     app_config = fields.Dict(dump_default={})
 
     @pre_dump
@@ -30,6 +31,7 @@ class GetWebAppResp(Schema):
             "icon": data.icon,
             "name": data.name,
             "description": data.description,
+            "allow_anonymous_access": data.allow_anonymous_access,
             "app_config": {
                 "opening_statement": app_config.opening_statement,
                 "opening_questions": app_config.opening_questions,

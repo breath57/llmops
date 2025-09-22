@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { useGetPublishedConfig, useRegenerateWebAppToken } from '@/hooks/use-app'
+import { useGetPublishedConfig, useRegenerateWebAppToken, useGetApp } from '@/hooks/use-app'
 
 // 1.定义页面所需数据
 const route = useRoute()
@@ -16,6 +16,7 @@ const {
   token,
   handleRegenerateWebAppToken,
 } = useRegenerateWebAppToken()
+const { app, loadApp } = useGetApp()
 const webAppUrl = computed(() => {
   if (published_config.value?.web_app?.status === 'published') {
     return getFullPath('web-apps-index', {
@@ -34,8 +35,9 @@ const getFullPath = (name: string, params = {}, query = {}) => {
   return window.location.origin + href
 }
 
-onMounted(() => {
-  loadPublishedConfig(String(route.params?.app_id))
+onMounted(async () => {
+  await loadPublishedConfig(String(route.params?.app_id))
+  await loadApp(String(route.params?.app_id))
 })
 </script>
 
@@ -63,8 +65,36 @@ onMounted(() => {
                   <icon-compass :size="18" class="text-blue-700" />
                 </a-avatar>
                 <div class="flex flex-col">
-                  <div class="text-gray-700 font-semibold">网页版</div>
-                  <div class="text-gray-500">可通过访问PC网页立即开始对话。</div>
+                  <div class="flex items-center gap-2">
+                    <span class="text-gray-700 font-semibold">网页版</span>
+                    <a-tag 
+                      v-if="app?.allow_anonymous_access" 
+                      size="small" 
+                      color="green"
+                    >
+                      <template #icon>
+                        <icon-user />
+                      </template>
+                      匿名访问
+                    </a-tag>
+                    <a-tag 
+                      v-else 
+                      size="small" 
+                      color="blue"
+                    >
+                      <template #icon>
+                        <icon-lock />
+                      </template>
+                      需要登录
+                    </a-tag>
+                  </div>
+                  <div class="text-gray-500">
+                    {{ 
+                      app?.allow_anonymous_access 
+                        ? '任何人都可以直接访问，无需登录。匿名用户的对话记录会在同一浏览器中保持。' 
+                        : '可通过访问PC网页立即开始对话，需要登录。'
+                    }}
+                  </div>
                 </div>
               </div>
             </td>

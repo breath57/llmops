@@ -12,6 +12,7 @@ from sqlalchemy import (
     Text,
     Integer,
     DateTime,
+    Boolean,
     PrimaryKeyConstraint,
     text,
 )
@@ -41,6 +42,7 @@ class App(db.Model):
     description = Column(Text, nullable=False, server_default=text("''::text"))  # 应用描述
     token = Column(String(255), nullable=True, server_default=text("''::character varying"))  # 应用凭证信息
     status = Column(String(255), nullable=False, server_default=text("''::character varying"))  # 应用状态
+    allow_anonymous_access = Column(Boolean, nullable=False, server_default=text("false"))  # 是否允许匿名访问
     updated_at = Column(
         DateTime,
         nullable=False,

@@ -99,6 +99,30 @@ watch(
                 <div class="text-xs text-gray-500 line-clamp-1">
                   {{ app.model_config.provider }} · {{ app.model_config.model }}
                 </div>
+                <div class="flex items-center gap-1 mt-1">
+                  <a-tag 
+                    v-if="app.allow_anonymous_access" 
+                    size="small" 
+                    color="green"
+                    class="text-xs"
+                  >
+                    <template #icon>
+                      <icon-user />
+                    </template>
+                    匿名访问
+                  </a-tag>
+                  <a-tag 
+                    v-else 
+                    size="small" 
+                    color="blue"
+                    class="text-xs"
+                  >
+                    <template #icon>
+                      <icon-lock />
+                    </template>
+                    需要登录
+                  </a-tag>
+                </div>
               </div>
               <!-- 操作按钮 -->
               <a-dropdown position="br">

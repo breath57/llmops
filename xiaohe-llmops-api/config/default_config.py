@@ -33,4 +33,11 @@ DEFAULT_CONFIG = {
 
     # 辅助Agent智能体应用id
     "ASSISTANT_AGENT_ID": "6774fcef-b594-8008-b30c-a05b8190afe6",
+
+    # Flask应用密钥
+    "SECRET_KEY": "dev-secret-key-change-in-production",
+
+    # OpenAI配置
+    "OPENAI_API_KEY": "",
+    "OPENAI_API_BASE": "https://api.siliconflow.cn/v1",
 }

@@ -6,6 +6,7 @@ export type GetWebAppResponse = BaseResponse<{
   icon: string
   name: string
   description: string
+  allow_anonymous_access: boolean
   app_config: {
     opening_statement: string
     opening_questions: string[]

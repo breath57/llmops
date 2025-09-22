@@ -12,16 +12,17 @@ export type GetAppResponse = BaseResponse<{
   icon: string
   description: string
   status: string
+  allow_anonymous_access: boolean
   draft_updated_at: number
   updated_at: number
   created_at: number
 }>
 
 // 新增应用请求结构
-export type CreateAppRequest = { name: string; icon: string; description: string }
+export type CreateAppRequest = { name: string; icon: string; description: string; allow_anonymous_access?: boolean }
 
 // 更新应用请求结构
-export type UpdateAppRequest = { name: string; icon: string; description: string }
+export type UpdateAppRequest = { name: string; icon: string; description: string; allow_anonymous_access?: boolean }
 
 // 获取应用分页列表数据请求
 export type GetAppsWithPageRequest = BasePaginatorRequest & { search_word: string }

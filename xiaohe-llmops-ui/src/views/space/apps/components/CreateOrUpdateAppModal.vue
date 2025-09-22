@@ -20,6 +20,7 @@ const defaultForm = {
   icon: '',
   name: '',
   description: '',
+  allow_anonymous_access: false,
 }
 const form = ref({ ...defaultForm })
 const formRef = ref<InstanceType<typeof Form>>()
@@ -64,6 +65,7 @@ watch(
           icon: app.value.icon,
           name: app.value.name,
           description: app.value.description,
+          allow_anonymous_access: app.value.allow_anonymous_access || false,
         }
       }
     } else {
@@ -155,6 +157,23 @@ watch(
             show-word-limit
             placeholder="请输入关于该应用的描述信息"
           />
+        </a-form-item>
+        <a-form-item field="allow_anonymous_access" label="访问权限">
+          <div class="flex items-center space-x-3">
+            <a-switch v-model:model-value="form.allow_anonymous_access" />
+            <div class="flex flex-col">
+              <span class="text-sm font-medium text-gray-700">
+                {{ form.allow_anonymous_access ? '允许匿名访问' : '需要登录访问' }}
+              </span>
+              <span class="text-xs text-gray-500 mt-1">
+                {{ 
+                  form.allow_anonymous_access 
+                    ? '任何人都可以直接访问此应用，无需登录。匿名用户的对话记录会在同一浏览器中保持。' 
+                    : '只有登录用户才能访问此应用。'
+                }}
+              </span>
+            </div>
+          </div>
         </a-form-item>
         <!-- 底部按钮 -->
         <div class="flex items-center justify-between">
