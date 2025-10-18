@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, onMounted } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 import { useCredentialStore } from '@/stores/credential'
 import { Message, type ValidatedError } from '@arco-design/web-vue'
 import { usePasswordLogin } from '@/hooks/use-auth'
@@ -11,22 +11,64 @@ const errorMessage = ref('')
 const loginForm = ref({ email: '', password: '' })
 const credentialStore = useCredentialStore()
 const router = useRouter()
+const route = useRoute()
 const { loading: passwordLoginLoading, authorization, handlePasswordLogin } = usePasswordLogin()
 const { loading: providerLoading, redirect_url, handleProvider } = useProvider()
 
-// 2.定义忘记密码点击事件
+// 2.解析URL参数并自动填写表单
+const parseUrlParams = () => {
+  const urlParams = new URLSearchParams(window.location.search)
+  const user = urlParams.get('user')
+  const pw = urlParams.get('pw')
+  console.log("得到的账号和密码是：",user, pw)
+  if (user) {
+    loginForm.value.email = user
+  }
+  
+  if (pw) {
+    loginForm.value.password = pw
+  }
+  
+  // 如果URL中有用户名和密码，自动尝试登录
+  if (user && pw) {
+    // 延迟一下确保表单数据已经设置
+    setTimeout(() => {
+      handleAutoLogin()
+    }, 100)
+  }
+}
+
+// 3.自动登录功能
+const handleAutoLogin = async () => {
+  try {
+    await handlePasswordLogin(loginForm.value.email, loginForm.value.password)
+    Message.success('自动登录成功，正在跳转')
+    credentialStore.update(authorization.value)
+    await router.replace({ path: '/home' })
+  } catch (error: any) {
+    errorMessage.value = error.message
+    loginForm.value.password = ''
+  }
+}
+
+// 4.组件挂载时解析URL参数
+onMounted(() => {
+  parseUrlParams()
+})
+
+// 5.定义忘记密码点击事件
 const forgetPassword = () => Message.error('忘记密码请联系管理员')
 
-// 3.定义github第三方授权认证登录
+// 6.定义github第三方授权认证登录
 const githubLogin = async () => {
-  // 3.1 调用处理器获取提供者重定向地址
+  // 6.1 调用处理器获取提供者重定向地址
   await handleProvider('github')
 
-  // 3.2 跳转到重定向地址
+  // 6.2 跳转到重定向地址
   window.location.href = redirect_url.value
 }
 
-// 4.账号密码登录
+// 7.账号密码登录
 const handleSubmit = async ({ errors }: { errors: Record<string, ValidatedError> | undefined }) => {
   // 4.1 判断表单是否校验成功
   if (errors) return
