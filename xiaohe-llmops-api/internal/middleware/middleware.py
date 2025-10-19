@@ -82,7 +82,12 @@ class Middleware:
         if request.path.startswith('/web-apps/'):
             return True
         
-        # 2. 检查是否为会话相关的接口且session中有匿名用户ID
+        # 2. 排除 /apps/{app_id}/conversations/messages 这种格式，因为它不是WebApp请求
+        # 该请求，对 debbug chat的窗口会使用
+        if '/apps/' in request.path and '/conversations/messages' in request.path:
+            return False
+        
+        # 3. 检查是否为会话相关的接口且session中有匿名用户ID
         try:
             if 'anonymous_user_id' in session and self._is_conversation_related_request(request):
                 return True
