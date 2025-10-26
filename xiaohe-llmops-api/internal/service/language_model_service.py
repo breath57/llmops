@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-@Time    : 2024/12/02 15:30
-@Author  : thezehui@gmail.com
-@File    : language_model_service.py
-"""
+
 import mimetypes
 import os
 from dataclasses import dataclass

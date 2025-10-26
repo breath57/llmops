@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-@Time    : 2024/11/02 10:45
-@Author  : thezehui@gmail.com
-@File    : ai_handler.py
-"""
+
 from dataclasses import dataclass
 
 from flask_login import login_required, current_user

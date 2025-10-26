@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-@Time    : 2024/8/30 15:25
-@Author  : thezehui@gmail.com
-@File    : jieba_service.py
-"""
+
 from dataclasses import dataclass
 
 import jieba.analyse

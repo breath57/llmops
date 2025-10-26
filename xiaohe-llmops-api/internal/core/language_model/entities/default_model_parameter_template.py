@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-@Time    : 2024/12/01 11:04
-@Author  : thezehui@gmail.com
-@File    : default_model_parameter_template.py
-"""
+
 from .model_entity import DefaultModelParameterName, ModelParameterType
 
 # 默认模型参数模板，用于减少YAML的配置，参数以OpenAI的模型接口作为标准

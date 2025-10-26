@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-@Time    : 2024/8/12 11:11
-@Author  : thezehui@gmail.com
-@File    : upload_file_service.py
-"""
+
 from dataclasses import dataclass
 
 from injector import inject

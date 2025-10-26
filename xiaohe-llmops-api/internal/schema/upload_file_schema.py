@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-@Time    : 2024/8/12 10:39
-@Author  : thezehui@gmail.com
-@File    : upload_file_schema.py
-"""
+
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired, FileAllowed, FileSize
 from marshmallow import Schema, fields, pre_dump

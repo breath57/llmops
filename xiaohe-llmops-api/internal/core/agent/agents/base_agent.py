@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-@Time    : 2024/10/01 15:35
-@Author  : thezehui@gmail.com
-@File    : base_agent.py
-"""
+
 import uuid
 from abc import abstractmethod
 from threading import Thread

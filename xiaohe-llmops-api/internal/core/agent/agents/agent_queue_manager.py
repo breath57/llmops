@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-@Time    : 2024/10/24 13:45
-@Author  : thezehui@gmail.com
-@File    : agent_queue_manager.py
-"""
+
 import queue
 import time
 import uuid

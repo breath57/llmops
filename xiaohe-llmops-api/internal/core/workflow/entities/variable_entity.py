@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-@Time    : 2024/11/25 22:41
-@Author  : thezehui@gmail.com
-@File    : variable_entity.py
-"""
+
 import re
 from enum import Enum
 from typing import Union, Any, Optional

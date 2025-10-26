@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-@Time    : 2024/8/25 14:34
-@Author  : thezehui@gmail.com
-@File    : dataset_entity.py
-"""
+
 from enum import Enum
 
 # 默认知识库描述格式化文本

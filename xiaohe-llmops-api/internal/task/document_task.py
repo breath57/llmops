@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-@Time    : 2024/09/03 14:54
-@Author  : thezehui@gmail.com
-@File    : document_task.py
-"""
+
 from uuid import UUID
 
 from celery import shared_task

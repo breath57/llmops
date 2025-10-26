@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-@Time    : 2024/10/01 15:53
-@Author  : thezehui@gmail.com
-@File    : function_call_agent.py
-"""
+
 import json
 import logging
 import re

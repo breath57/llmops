@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-@Time    : 2024/09/03 14:57
-@Author  : thezehui@gmail.com
-@File    : indexing_service.py
-"""
+
 import logging
 import re
 import uuid

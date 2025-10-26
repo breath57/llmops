@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-@Time    : 2024/7/27 14:50
-@Author  : thezehui@gmail.com
-@File    : builtin_tool_service.py
-"""
+
 import mimetypes
 import os.path
 from dataclasses import dataclass

@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-@Time    : 2024/11/25 16:45
-@Author  : thezehui@gmail.com
-@File    : tool_node.py
-"""
+
 import json
 import time
 from typing import Optional, Any

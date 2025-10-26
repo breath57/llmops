@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-@Time    : 2024/11/20 15:46
-@Author  : thezehui@gmail.com
-@File    : builtin_app_service.py
-"""
+
 from dataclasses import dataclass
 
 from injector import inject

@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-@Time    : 2024/8/4 10:25
-@Author  : thezehui@gmail.com
-@File    : api_provider_manager.py
-"""
+
 from dataclasses import dataclass
 from typing import Type, Optional, Callable
 

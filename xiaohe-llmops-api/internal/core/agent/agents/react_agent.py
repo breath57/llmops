@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-@Time    : 2024/12/6 15:48
-@Author  : thezehui@gmail.com
-@File    : react_agent.py
-"""
+
 import json
 import logging
 import re

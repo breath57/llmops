@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-@Time    : 2024/11/19 22:16
-@Author  : thezehui@gmail.com
-@File    : openapi_schema.py
-"""
+
 import uuid
 
 from flask_wtf import FlaskForm

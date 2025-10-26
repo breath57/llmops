@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-@Time    : 2024/11/25 10:24
-@Author  : thezehui@gmail.com
-@File    : llm_entity.py
-"""
+
 from typing import Any
 
 from pydantic import Field, validator

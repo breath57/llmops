@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-@Time    : 2024/12/01 11:48
-@Author  : thezehui@gmail.com
-@File    : chat.py
-"""
+
 from typing import List
 from langchain_openai import ChatOpenAI
 from langchain_core.messages import BaseMessage

@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-@Time    : 2024/11/25 17:11
-@Author  : thezehui@gmail.com
-@File    : edge_entity.py
-"""
+
 from uuid import UUID
 
 from pydantic import BaseModel

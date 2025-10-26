@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-@Time    : 2024/11/25 12:06
-@Author  : thezehui@gmail.com
-@File    : __init__.py.py
-"""
+
 from .base_node import BaseNode
 from .code.code_node import CodeNode, CodeNodeData
 from .dataset_retrieval.dataset_retrieval_node import DatasetRetrievalNode, DatasetRetrievalNodeData

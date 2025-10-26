@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-@Time    : 2024/11/27 10:06
-@Author  : thezehui@gmail.com
-@File    : helper.py
-"""
+
 from typing import Any
 
 from internal.core.workflow.entities.variable_entity import (

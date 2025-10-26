@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-@Time    : 2024/3/29 15:18
-@Author  : thezehui@gmail.com
-@File    : app.py
-"""
+
 import os
 import dotenv
 from flask_login import LoginManager

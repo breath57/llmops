@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-@Time    : 2024/09/18 14:54
-@Author  : thezehui@gmail.com
-@File    : retrieval_service.py
-"""
+
 from dataclasses import dataclass
 from uuid import UUID
 

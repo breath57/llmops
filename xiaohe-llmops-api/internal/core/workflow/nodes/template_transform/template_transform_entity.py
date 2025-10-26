@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-@Time    : 2024/11/25 10:57
-@Author  : thezehui@gmail.com
-@File    : template_transform_entity.py
-"""
+
 from pydantic import Field, validator
 
 from internal.core.workflow.entities.node_entity import BaseNodeData

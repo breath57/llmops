@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-@Time    : 2024/11/19 22:21
-@Author  : thezehui@gmail.com
-@File    : openapi_service.py
-"""
+
 import json
 from dataclasses import dataclass
 from threading import Thread

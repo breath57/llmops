@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-@Time    : 2024/7/19 20:55
-@Author  : thezehui@gmail.com
-@File    : duckduckgo_search.py
-"""
+
 from langchain_community.tools import DuckDuckGoSearchRun
 from pydantic import BaseModel, Field
 from langchain_core.tools import BaseTool

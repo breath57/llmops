@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-@Time    : 2024/11/25 11:47
-@Author  : thezehui@gmail.com
-@File    : workflow_entity.py
-"""
+
 import re
 from collections import defaultdict, deque
 from typing import Any, TypedDict, Annotated

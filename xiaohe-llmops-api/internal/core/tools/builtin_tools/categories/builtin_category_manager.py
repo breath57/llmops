@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-@Time    : 2024/7/21 20:51
-@Author  : thezehui@gmail.com
-@File    : builtin_category_manager.py
-"""
+
 import os.path
 from typing import Any
 

@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-@Time    : 2024/8/19 16:46
-@Author  : thezehui@gmail.com
-@File    : celery_extension.py
-"""
+
 from celery import Task, Celery
 from flask import Flask
 

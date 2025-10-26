@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-@Time    : 2024/11/20 13:25
-@Author  : thezehui@gmail.com
-@File    : category_entity.py
-"""
+
 from pydantic import BaseModel, Field
 
 

@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-@Time    : 2024/12/01 11:11
-@Author  : thezehui@gmail.com
-@File    : provider_entity.py
-"""
+
 import os.path
 from typing import Union, Type, Any, Optional
 

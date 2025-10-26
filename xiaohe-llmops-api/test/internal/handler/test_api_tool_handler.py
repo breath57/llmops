@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-@Time    : 2024/8/1 11:06
-@Author  : thezehui@gmail.com
-@File    : test_api_tool_handler.py
-"""
+
 import pytest
 
 from pkg.response import HttpCode

@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-@Time    : 2024/7/19 16:50
-@Author  : thezehui@gmail.com
-@File    : google_serper.py
-"""
+
 from langchain_community.tools import GoogleSerperRun
 from langchain_community.utilities import GoogleSerperAPIWrapper
 from pydantic import BaseModel, Field

@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-@Time    : 2024/11/26 17:32
-@Author  : thezehui@gmail.com
-@File    : http_request_node.py
-"""
+
 import time
 from typing import Optional
 

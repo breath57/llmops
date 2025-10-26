@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-@Time    : 2024/11/19 21:00
-@Author  : thezehui@gmail.com
-@File    : app_config_service.py
-"""
+
 from dataclasses import dataclass
 from typing import Any, Union
 from uuid import UUID

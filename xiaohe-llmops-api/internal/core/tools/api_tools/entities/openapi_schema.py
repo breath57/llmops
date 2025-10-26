@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-@Time    : 2024/8/1 10:26
-@Author  : thezehui@gmail.com
-@File    : openapi_schema.py
-"""
+
 from enum import Enum
 
 from pydantic import BaseModel, Field, field_validator

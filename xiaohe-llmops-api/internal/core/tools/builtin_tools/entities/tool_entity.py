@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-@Time    : 2024/7/19 17:22
-@Author  : thezehui@gmail.com
-@File    : tool_entity.py
-"""
+
 from enum import Enum
 from typing import Optional, Any
 

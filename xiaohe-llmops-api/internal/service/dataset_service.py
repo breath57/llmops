@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-@Time    : 2024/8/25 14:30
-@Author  : thezehui@gmail.com
-@File    : dataset_service.py
-"""
+
 import logging
 from dataclasses import dataclass
 from uuid import UUID

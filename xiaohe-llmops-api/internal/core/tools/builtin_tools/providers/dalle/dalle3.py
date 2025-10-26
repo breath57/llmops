@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-@Time    : 2024/7/19 21:11
-@Author  : thezehui@gmail.com
-@File    : dalle3.py
-"""
+
 from langchain_community.tools.openai_dalle_image_generation import OpenAIDALLEImageGenerationTool
 from langchain_community.utilities.dalle_image_generator import DallEAPIWrapper
 from pydantic import BaseModel, Field

@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-@Time    : 2024/11/25 15:40
-@Author  : thezehui@gmail.com
-@File    : code_entity.py
-"""
+
 from pydantic import Field
 
 from internal.core.workflow.entities.node_entity import BaseNodeData

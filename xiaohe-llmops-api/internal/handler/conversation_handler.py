@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-@Time    : 2024/12/10 10:43
-@Author  : thezehui@gmail.com
-@File    : conversation_handler.py
-"""
+
 from dataclasses import dataclass
 from uuid import UUID
 

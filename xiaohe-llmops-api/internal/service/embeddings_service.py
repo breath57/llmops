@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-@Time    : 2024/8/30 13:35
-@Author  : thezehui@gmail.com
-@File    : embeddings_service.py
-"""
+
 from dataclasses import dataclass
 
 import tiktoken

@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-@Time    : 2024/09/08 22:57
-@Author  : thezehui@gmail.com
-@File    : cache_entity.py
-"""
+
 # 缓存所的过期时间，单位为妙，默认为600
 LOCK_EXPIRE_TIME = 600
 

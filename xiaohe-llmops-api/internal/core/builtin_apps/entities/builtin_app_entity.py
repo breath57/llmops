@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-@Time    : 2024/11/20 13:29
-@Author  : thezehui@gmail.com
-@File    : builtin_app_entity.py
-"""
+
 from typing import Any
 
 from pydantic import BaseModel, Field

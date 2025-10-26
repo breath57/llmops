@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-@Time    : 2024/09/18 13:48
-@Author  : thezehui@gmail.com
-@File    : full_text_retriever.py
-"""
+
 from collections import Counter
 from typing import List
 from uuid import UUID

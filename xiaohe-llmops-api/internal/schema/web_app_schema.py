@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-@Time    : 2024/12/10 22:09
-@Author  : thezehui@gmail.com
-@File    : web_app_schema.py
-"""
+
 from flask_wtf import FlaskForm
 from marshmallow import Schema, fields, pre_dump
 from wtforms import StringField, BooleanField

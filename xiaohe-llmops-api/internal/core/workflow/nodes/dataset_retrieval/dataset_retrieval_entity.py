@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-@Time    : 2024/11/25 13:49
-@Author  : thezehui@gmail.com
-@File    : dataset_retrieval_entity.py
-"""
+
 from uuid import UUID
 
 from pydantic import BaseModel, Field, validator

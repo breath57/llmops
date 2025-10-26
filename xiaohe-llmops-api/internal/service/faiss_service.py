@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-@Time    : 2024/12/03 13:48
-@Author  : thezehui@gmail.com
-@File    : faiss_service.py
-"""
+
 import os
 
 from injector import inject

@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-@Time    : 2024/8/7 15:36
-@Author  : thezehui@gmail.com
-@File    : upload_file.py
-"""
+
 from sqlalchemy import (
     Column,
     UUID,

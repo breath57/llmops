@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-@Time    : 2024/4/4 16:39
-@Author  : thezehui@gmail.com
-@File    : conftest.py.py
-"""
+
 import pytest
 from sqlalchemy.orm import sessionmaker, scoped_session
 

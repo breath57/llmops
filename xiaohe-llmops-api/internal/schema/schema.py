@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-@Time    : 2024/8/1 14:18
-@Author  : thezehui@gmail.com
-@File    : schema.py
-"""
+
 from wtforms import Field
 
 

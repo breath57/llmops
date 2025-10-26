@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-@Time    : 2024/8/2 21:04
-@Author  : thezehui@gmail.com
-@File    : paginator.py
-"""
+
 import math
 from dataclasses import dataclass
 from typing import Any

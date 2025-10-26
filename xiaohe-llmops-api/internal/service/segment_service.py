@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-@Time    : 2024/09/15 15:14
-@Author  : thezehui@gmail.com
-@File    : segment_service.py
-"""
+
 import logging
 import uuid
 from dataclasses import dataclass

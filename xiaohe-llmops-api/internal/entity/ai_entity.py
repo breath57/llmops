@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-@Time    : 2024/11/02 10:58
-@Author  : thezehui@gmail.com
-@File    : ai_entity.py
-"""
+
 # 一段优化提示词的提示词模板
 OPTIMIZE_PROMPT_TEMPLATE = """# 角色
 你是一位AI提示词工程师，你商场根据用户的需求，优化和组成AI提示词。
