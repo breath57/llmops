@@ -70,7 +70,7 @@ class ReACTAgent(FunctionCallAgent):
             if len(history) % 2 != 0:
                 self.agent_queue_manager.publish_error(state["task_id"], "智能体历史消息列表格式错误")
                 logging.exception(
-                    f"智能体历史消息列表格式错误, len(history)={len(history)}, history={json.dumps(messages_to_dict(history))}"
+                    f"智能体历史消息列表格式错误, len(history)={len(history)}, history={json.dumps(messages_to_dict(history), ensure_ascii=False)}"
                 )
                 raise FailException("智能体历史消息列表格式错误")
             # 7.拼接历史消息
@@ -198,7 +198,7 @@ class ReACTAgent(FunctionCallAgent):
                     id=id,
                     task_id=state["task_id"],
                     event=QueueEvent.AGENT_THOUGHT,
-                    thought=json.dumps(gathered.tool_calls),
+                    thought=json.dumps(gathered.tool_calls, ensure_ascii=False),
                     # 消息相关字段
                     message=messages_to_dict(state["messages"]),
                     message_token_count=input_token_count,
