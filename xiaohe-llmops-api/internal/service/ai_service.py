@@ -62,4 +62,4 @@ class AIService(BaseService):
         for optimize_prompt in optimize_chain.stream({"prompt": prompt}):
             # 5.组装响应数据
             data = {"optimize_prompt": optimize_prompt}
-            yield f"event: optimize_prompt\ndata: {json.dumps(data)}\n\n"
+            yield f"event: optimize_prompt\ndata: {json.dumps(data, ensure_ascii=False)}\n\n"

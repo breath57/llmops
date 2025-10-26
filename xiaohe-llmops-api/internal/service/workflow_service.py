@@ -320,7 +320,7 @@ class WorkflowService(BaseService):
                         _ = self.db.session.execute(
                             update(Workflow).where(Workflow.id == workflow.id).values(is_debug_passed=True)
                         )
-                    yield f"event: workflow\ndata: {json.dumps(data)}\n\n"
+                    yield f"event: workflow\ndata: {json.dumps(data, ensure_ascii=False)}\n\n"
 
                 # 7.流式输出完毕后，将结果存储到数据库中                
                 self.update(workflow_result, **{
