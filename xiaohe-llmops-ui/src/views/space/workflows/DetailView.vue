@@ -344,7 +344,7 @@ const deleteSelected = () => {
 
 // 键盘监听：Delete/Backspace 删除
 const onKeyDown = (e: KeyboardEvent) => {
-  if (e.key === 'Delete' || e.key === 'Backspace') {
+  if (e.key === 'Delete') {
     e.preventDefault()
     deleteSelected()
   }
