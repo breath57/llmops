@@ -30,6 +30,7 @@ import '@vue-flow/core/dist/theme-default.css'
 import '@vue-flow/minimap/dist/style.css'
 import { Message } from '@arco-design/web-vue'
 import { generateRandomString } from '@/utils/helper'
+import { v4 as uuidv4 } from 'uuid'
 import TemplateTransformNodeInfo from '@/views/space/workflows/components/infos/TemplateTransformNodeInfo.vue'
 import CodeNodeInfo from '@/views/space/workflows/components/infos/CodeNodeInfo.vue'
 import HttpRequestNodeInfo from '@/views/space/workflows/components/infos/HttpRequestNodeInfo.vue'
@@ -253,7 +254,7 @@ const addNode = (node_type: string) => {
 
   // 3.6 添加节点数据
   nodes.value.push({
-    id: crypto.randomUUID(),
+    id: uuidv4(),
     type: node_type,
     position: { x: xAverage, y: yAverage },
     data: {
@@ -381,7 +382,7 @@ onConnect((connection) => {
   // 将数据添加到edges
   edges.value.push({
     ...connection,
-    id: crypto.randomUUID(),
+    id: uuidv4(),
     source_type: source_node?.type,
     target_type: target_node?.type,
     animated: true,
