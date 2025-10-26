@@ -1,12 +1,12 @@
 name: baidusearch
-label: 百度AI搜索
+label: AI搜索
 description: 使用百度AI搜索获取实时网络信息，支持自然语言查询和智能搜索生成
 params:
-  - name: api_key
-    label: API密钥
-    type: string
-    required: false
-    description: 百度千帆平台的API Key(不填则使用系统默认的key，每天限制100次调用)
+  # - name: api_key
+  #   label: API密钥
+  #   type: string
+  #   required: false
+  #   description: 百度千帆平台的API Key(不填则使用系统默认的key，每天限制100次调用)
   - name: max_results
     label: 最大结果数
     type: number

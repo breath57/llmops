@@ -17,7 +17,6 @@ class BaiduSearchArgsSchema(BaseModel):
 
 class BaiduSearchAPIWrapper(BaseModel):
     """百度AI搜索API包装器配置"""
-    api_key: str = Field(description="百度千帆API密钥", default_factory=lambda: os.getenv("BAIDU_BCE_API_KEY"))
     max_results: int = Field(description="最大搜索结果数", default=10)
     search_type: str = Field(description="搜索类型", default="web")
     edition: str = Field(description="搜索版本", default="standard")
@@ -36,7 +35,7 @@ class BaiduSearch(BaseTool):
             search_url = "https://qianfan.baidubce.com/v2/ai_search/web_search"
             headers = {
                 "Content-Type": "application/json",
-                "X-Appbuilder-Authorization": f"Bearer {self.api_wrapper.api_key}"
+                "X-Appbuilder-Authorization": f"Bearer {os.getenv('BAIDU_BCE_API_KEY')}"
             }
             
             payload = {
