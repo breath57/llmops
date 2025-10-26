@@ -1,0 +1,41 @@
+name: baidusearch
+label: 百度AI搜索
+description: 使用百度AI搜索获取实时网络信息，支持自然语言查询和智能搜索生成
+params:
+  - name: api_key
+    label: API密钥
+    type: string
+    required: false
+    description: 百度千帆平台的API Key(不填则使用系统默认的key，每天限制100次调用)
+  - name: max_results
+    label: 最大结果数
+    type: number
+    default: 10
+    required: false
+    min: 1
+    max: 50
+    description: 返回搜索结果的最大数量
+  - name: search_type
+    label: 搜索类型
+    type: select
+    default: web
+    required: false
+    options:
+      - value: web
+        label: "网页搜索"
+      - value: video
+        label: "视频搜索"
+      - value: image
+        label: "图片搜索"
+      - value: aladdin
+        label: "阿拉丁搜索"
+  - name: edition
+    label: 搜索版本
+    type: select
+    default: lite
+    required: false
+    options:
+      - value: standard
+        label: "完整版本"
+      - value: lite
+        label: "标准版本"
