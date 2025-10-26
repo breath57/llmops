@@ -14,6 +14,7 @@ import { type CreateApiToolProviderRequest } from '@/models/api-tool'
 import moment from 'moment/moment'
 import { typeMap } from '@/config'
 import { type FileItem, Form, type ValidatedError } from '@arco-design/web-vue'
+import { autoFillApiBaseUrl } from '@/utils/helper'
 
 // 1.定义额面所需数据
 const route = useRoute()
@@ -200,6 +201,7 @@ watch(
   },
   { immediate: true },
 )
+
 </script>
 
 <template>
@@ -216,7 +218,7 @@ watch(
           <!-- 顶部提供商名称 -->
           <div class="flex items-center gap-3 mb-3">
             <!-- 左侧图标 -->
-            <a-avatar :size="40" shape="square" :image-url="provider.icon" />
+            <a-avatar :size="40" shape="square" :image-url="autoFillApiBaseUrl(provider.icon)" />
             <!-- 右侧工具信息 -->
             <div class="flex flex-col">
               <div class="text-base text-gray-900 font-bold">{{ provider.name }}</div>
@@ -277,7 +279,7 @@ watch(
         <!-- 顶部提供商名称 -->
         <div class="flex items-center gap-3 mb-3">
           <!-- 左侧图标 -->
-          <a-avatar :size="40" shape="square" :image-url="api_tool_providers[showIdx].icon" />
+          <a-avatar :size="40" shape="square" :image-url="autoFillApiBaseUrl(api_tool_providers[showIdx].icon)" />
           <!-- 右侧工具信息 -->
           <div class="flex flex-col">
             <div class="text-base text-gray-900 font-bold">

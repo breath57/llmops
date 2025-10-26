@@ -3,10 +3,10 @@ FROM python:3.12-slim
 # 设置工作目录
 WORKDIR /app
 
-# 使用阿里云镜像源
-RUN sed -i 's/deb.debian.org/mirrors.aliyun.com/g' /etc/apt/sources.list.d/debian.sources || \
-    echo "deb https://mirrors.aliyun.com/debian/ bookworm main" > /etc/apt/sources.list && \
-    echo "deb https://mirrors.aliyun.com/debian/ bookworm-updates main" >> /etc/apt/sources.list
+# 使用腾讯云镜像源
+RUN sed -i 's/deb.debian.org/mirrors.tencent.com/g' /etc/apt/sources.list.d/debian.sources || \
+    echo "deb https://mirrors.tencent.com/debian/ bookworm main" > /etc/apt/sources.list && \
+    echo "deb https://mirrors.tencent.com/debian/ bookworm-updates main" >> /etc/apt/sources.list
 
 # 安装系统依赖
 RUN apt-get update && apt-get install -y \
@@ -15,9 +15,9 @@ RUN apt-get update && apt-get install -y \
     postgresql-client \
     && rm -rf /var/lib/apt/lists/*
 
-# 设置pip阿里镜像源并安装 uv
-RUN pip config set global.index-url https://mirrors.aliyun.com/pypi/simple/
-RUN pip config set global.trusted-host mirrors.aliyun.com
+# 设置pip腾讯云镜像源并安装 uv
+RUN pip config set global.index-url https://mirrors.tencent.com/pypi/simple/
+RUN pip config set global.trusted-host mirrors.tencent.com
 RUN pip install uv
 
 # 复制项目文件

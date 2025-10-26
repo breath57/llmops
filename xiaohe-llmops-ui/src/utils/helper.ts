@@ -135,3 +135,14 @@ export const getReferencedVariables = (
 
   return options
 }
+
+
+// 自动填充api_base_url，如果path不以http开头则自动填充api_prefix
+export const autoFillApiBaseUrl = (path: string) => {
+  let finalPath: string = path
+  if(!path.startsWith('http')) {
+    let apiPrefix: string = import.meta.env.VITE_API_PREFIX
+    finalPath = `${apiPrefix}${path}`
+  }
+  return finalPath
+}

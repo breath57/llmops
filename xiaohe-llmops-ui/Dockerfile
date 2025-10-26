@@ -4,11 +4,13 @@ FROM node:23-alpine AS builder
 WORKDIR /app
 
 # 设置阿里镜像源
-RUN npm config set registry https://registry.npmmirror.com
+# RUN npm config set registry https://registry.npmmirror.com
+RUN npm config set registry https://mirrors.cloud.tencent.com/npm
 
 # 安装yarn并设置阿里镜像源
 # RUN npm install -g yarn
-RUN yarn config set registry https://registry.npmmirror.com
+# RUN yarn config set registry https://registry.npmmirror.com
+RUN yarn config set registry https://mirrors.cloud.tencent.com/npm
 
 # 复制package文件
 COPY package*.json yarn.lock* ./

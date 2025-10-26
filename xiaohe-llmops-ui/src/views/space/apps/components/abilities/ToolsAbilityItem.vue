@@ -6,6 +6,7 @@ import { useGetApiTool, useGetApiToolProvidersWithPage } from '@/hooks/use-tool'
 import { useGetBuiltinTool, useGetBuiltinTools, useGetCategories } from '@/hooks/use-builtin-tool'
 import { apiPrefix, typeMap } from '@/config'
 import { Message } from '@arco-design/web-vue'
+import { autoFillApiBaseUrl } from '@/utils/helper'
 
 // 1.定义自定义组件所需数据
 const props = defineProps({
@@ -299,6 +300,7 @@ onMounted(() => {
   // 加载内置工具分类
   loadCategories()
 })
+
 </script>
 
 <template>
@@ -328,7 +330,7 @@ onMounted(() => {
               :size="36"
               shape="square"
               class="rounded flex-shrink-0"
-              :image-url="tool.provider.icon"
+              :image-url="autoFillApiBaseUrl(tool.provider.icon)"
             />
             <!-- 名称与描述信息 -->
             <div class="flex flex-col gap-1 h-9">
@@ -669,7 +671,7 @@ onMounted(() => {
                   >
                     <!-- 工具信息 -->
                     <div class="flex items-center gap-2">
-                      <a-avatar :size="20" shape="circle" :image-url="api_tool_provider.icon" />
+                      <a-avatar :size="20" shape="circle" :image-url="autoFillApiBaseUrl(api_tool_provider.icon)" />
                       <div class="text-gray-900">{{ tool.name }}</div>
                     </div>
                     <!-- 添加按钮 -->
