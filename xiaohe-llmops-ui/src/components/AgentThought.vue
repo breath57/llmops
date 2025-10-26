@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { type PropType, ref } from 'vue'
 import { QueueEvent } from '@/config'
+import MessagePreviewModal from './MessagePreviewModal.vue'
+import MessageHoverPreview from './MessageHoverPreview.vue'
 
 // 1.定义自定义组件所需数据
 const props = defineProps({
@@ -12,6 +14,76 @@ const props = defineProps({
   },
 })
 const visible = ref(false)
+
+// 消息预览相关状态
+const previewModalVisible = ref(false)
+const previewContent = ref('')
+const previewTitle = ref('')
+
+// 悬停预览相关状态
+const hoverPreviewVisible = ref(false)
+const hoverPreviewContent = ref('')
+const hoverPreviewPosition = ref({ x: 0, y: 0 })
+let hoverTimer: number | null = null
+
+// 处理消息内容点击预览
+const handleContentClick = (content: string, eventType: string) => {
+  if (!content || content === '-') return
+  
+  previewContent.value = content
+  previewTitle.value = getEventTitle(eventType)
+  previewModalVisible.value = true
+}
+
+// 获取事件类型对应的标题
+const getEventTitle = (eventType: string) => {
+  const titleMap: Record<string, string> = {
+    [QueueEvent.longTermMemoryRecall]: '长期记忆召回',
+    [QueueEvent.agentThought]: '智能体推理',
+    [QueueEvent.datasetRetrieval]: '搜索知识库',
+    [QueueEvent.agentAction]: '调用工具',
+    [QueueEvent.agentMessage]: '智能体消息',
+  }
+  return titleMap[eventType] || '消息内容预览'
+}
+
+// 处理鼠标悬停进入
+const handleMouseEnter = (event: MouseEvent, content: string) => {
+  if (!content || content === '-') return
+  
+  // 清除之前的定时器
+  if (hoverTimer) {
+    window.clearTimeout(hoverTimer)
+  }
+  
+  // 设置延迟显示，避免鼠标快速移动时频繁显示
+  hoverTimer = window.setTimeout(() => {
+    hoverPreviewContent.value = content
+    hoverPreviewPosition.value = { x: event.clientX, y: event.clientY }
+    hoverPreviewVisible.value = true
+  }, 300) // 300ms延迟
+}
+
+// 处理鼠标悬停离开
+const handleMouseLeave = () => {
+  // 清除定时器
+  if (hoverTimer) {
+    window.clearTimeout(hoverTimer)
+    hoverTimer = null
+  }
+  
+  // 延迟隐藏，给用户时间移动到预览框
+  window.setTimeout(() => {
+    hoverPreviewVisible.value = false
+  }, 100)
+}
+
+// 处理鼠标移动，更新预览框位置
+const handleMouseMove = (event: MouseEvent) => {
+  if (hoverPreviewVisible.value) {
+    hoverPreviewPosition.value = { x: event.clientX, y: event.clientY }
+  }
+}
 </script>
 
 <template>
@@ -80,16 +152,43 @@ const visible = ref(false)
         </template>
         <div
           v-if="['agent_thought', 'agent_message'].includes(agent_thought.event)"
-          class="text-xs text-gray-500 line-clamp-4 break-all"
+          class="text-xs text-gray-500 line-clamp-4 break-all cursor-pointer hover:bg-gray-50 rounded p-1 transition-colors"
+          @click="handleContentClick(agent_thought.thought || '-', agent_thought.event)"
+          @mouseenter="(event) => handleMouseEnter(event, agent_thought.thought || '-')"
+          @mouseleave="handleMouseLeave"
+          @mousemove="handleMouseMove"
+          :title="agent_thought.thought && agent_thought.thought !== '-' ? '点击查看完整内容，悬停预览' : ''"
         >
           {{ agent_thought.thought || '-' }}
         </div>
-        <div v-else class="text-xs text-gray-500 line-clamp-4 break-all">
+        <div 
+          v-else 
+          class="text-xs text-gray-500 line-clamp-4 break-all cursor-pointer hover:bg-gray-50 rounded p-1 transition-colors"
+          @click="handleContentClick(agent_thought.observation || '-', agent_thought.event)"
+          @mouseenter="(event) => handleMouseEnter(event, agent_thought.observation || '-')"
+          @mouseleave="handleMouseLeave"
+          @mousemove="handleMouseMove"
+          :title="agent_thought.observation && agent_thought.observation !== '-' ? '点击查看完整内容，悬停预览' : ''"
+        >
           {{ agent_thought.observation || '-' }}
         </div>
       </a-collapse-item>
     </a-collapse>
   </div>
+  
+  <!-- 消息内容预览模态框 -->
+  <message-preview-modal
+    v-model:visible="previewModalVisible"
+    :title="previewTitle"
+    :content="previewContent"
+  />
+  
+  <!-- 鼠标悬停预览 -->
+  <message-hover-preview
+    :visible="hoverPreviewVisible"
+    :content="hoverPreviewContent"
+    :position="hoverPreviewPosition"
+  />
 </template>
 
 <style>
